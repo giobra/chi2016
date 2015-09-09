@@ -1,0 +1,1 @@
+sigchi-latex-proceedings/sigchi.cls

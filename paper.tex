@@ -1,0 +1,182 @@
+\documentclass{sigchi}
+
+% Use this command to override the default ACM copyright statement
+% (e.g. for preprints).  Consult the conference website for the
+% camera-ready copyright statement.
+
+
+%% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+% \toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is      granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
+% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
+% DOI string from ACM form confirmation}
+%% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+
+% Arabic page numbers for submission.  Remove this line to eliminate
+% page numbers for the camera ready copy 
+
+%\pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}  % to better equalize the last page
+\usepackage{graphics} % for EPS, load graphicx instead 
+%\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+\usepackage{times}    % comment if you want LaTeX's default font
+\usepackage[pdftex]{hyperref}
+% \usepackage{url}      % llt: nicely formatted URLs
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{ccicons}
+\usepackage{todonotes}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\bf\ttfamily}}}
+\makeatother
+\urlstyle{leo}
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={SIGCHI Conference Proceedings Format},
+  pdfauthor={LaTeX},
+  pdfkeywords={SIGCHI, proceedings, archival format},
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
+}
+
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
+
+% End of preamble. Here it comes the document.
+\begin{document}
+
+\title{SIGCHI Conference Proceedings Format}
+
+\numberofauthors{3}
+\author{%
+  \alignauthor{1st Author Name\\
+    \affaddr{Affiliation}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+  \alignauthor{2nd Author Name\\
+    \affaddr{Affiliation}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+  \alignauthor{3rd Author Name\\
+    \affaddr{Affiliation}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+}
+
+\maketitle
+
+\begin{abstract}
+  UPDATED---\today. This sample paper describes the
+  formatting requirements for SIGCHI conference proceedings, and
+  offers recommendations on writing for the worldwide SIGCHI
+  readership. Please review this document even if you have submitted
+  to SIGCHI conferences before, as some format details have changed
+  relative to previous years. Abstracts should be about 150 words and
+  are required.
+\end{abstract}
+
+\keywords{Authors' choice; of terms; separated; by semi\-colons;
+  commas, within terms only; this section is required.}
+
+\category{H.5.m.}{Information Interfaces and Presentation
+  (e.g. HCI)}{Miscellaneous} \category{See
+  \url{http://acm.org/about/class/1998/} for the full list of ACM
+  classifiers. This section is required.}{}{}
+
+\section{Introduction}
+
+Developing good user interfaces for web or mobile applications is a
+complex and expensive endeavor. One reason is the combination of
+devices, interaction modalities and workflows that need to be
+supported.
+
+Adopting Usage Centered Development practices is effective, as is
+following established design principles~\cite{constantine99}. Early
+prototyping~\cite{buxton07} and exploration of the 5-dimensional prototyping
+space~\cite{mccurdy06} is one of the most effective techniques,
+especially when paired with usability investigations based on user
+testing or heuristic evaluations.
+
+However, it requires development of prototypes that are usually
+developed with certain tasks in mind, and therefore are quite
+restricted in terms of depth and breadth of supported use
+cases. Furthermore, usability results are always surrounded by a cloud
+of uncertainty, due to subjectivity introduced by participants and
+facilitators or by other contingency factors involved in the
+analysis. Thus, although an effort needs to be expended to develop and
+use prototypes, less than optimal results are obtained.
+
+A designer, while conceiving and developing a solution, might benefit
+from answers to seemingly simple questions that should not require a
+significant investment of time and effort. Given one or more potential
+solutions and some usage scenarios, interesting questions could
+include: ``What are the optimal execution paths?'' or ``How many such
+paths exist?'', or ``Are usage mistakes recoverable?''. At the moment,
+even these straightforward questions are quite complex to answer. In
+fact, they require inspection of prototypes, manual tracking of which
+screens and widgets are used at which stage, and exhaustive searches.
+
+This should not be the case, however. These answers provide important
+insights to a designer, and support decisions related to benchmarking
+different solutions, to identification of optimal or mistaken paths,
+to assessment of suitability of a design with respect to scenarios.
+
+In this paper we present an approach that allows designer to quickly
+be able to get these kinds of answers, and present it on a case study
+comparing four different web mail front ends. We have chosen this
+domain because it is very well understood by readers and yet those
+trivial questions lead to non trivial results.
+
+The approach is based on UML statechart models of the user interfaces
+which are automatically processed to produce \emph{interaction
+  graphs}. These are then used to unfold \emph{execution traces} that
+are dependent on the specific usage scenarios being considered in the
+analysis. On traces several graph-theoretic computations can be
+performed to produce a dhasboard of different results that provide the
+answers. Except for development of models and specification of the
+desired scenarios, the other steps are totally automatic; models of a
+design could be developed in a matter of a couple of hours.
+
+The contribution consists of the development of a tool that transforms
+models and scenario specifications into execution traces, and the
+definition of metrics that provide concise, precise and objective
+measures of a design.
+
+% REFERENCES FORMAT
+% References must be the same font size as other body text.
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{gb,database}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
