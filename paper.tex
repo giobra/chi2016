@@ -72,7 +72,9 @@
 % End of preamble. Here it comes the document.
 \begin{document}
 
-\title{SIGCHI Conference Proceedings Format}
+\title{To be decided\\
+Measuring Interaction before developing prototypes\\
+Measuring Interaction Graphs}
 
 \numberofauthors{3}
 \author{%
@@ -93,13 +95,23 @@
 \maketitle
 
 \begin{abstract}
-  UPDATED---\today. This sample paper describes the
-  formatting requirements for SIGCHI conference proceedings, and
-  offers recommendations on writing for the worldwide SIGCHI
-  readership. Please review this document even if you have submitted
-  to SIGCHI conferences before, as some format details have changed
-  relative to previous years. Abstracts should be about 150 words and
-  are required.
+  Early development of prototypes and testing them with users is a good
+  practice for user interfaces development. However, prototypes have
+  to cover specific usage scenarios, and because they are limited
+  in focus, the whole picture of the user interface is easily lost. Even
+  simple questions dealing with numerosity and length of
+  optimal execution paths or impact of possible user errors can be
+  answered only for the specific scenarios being analyzed.
+
+  We discuss a tool that transforms models of the behavior of a user
+  interface into a graph. This is then used to specify usage
+  scenarios, and to generate possible execution traces. Metrics based
+  on number and length of different possible execution paths, with or
+  without possible mistakes, can be easily computed. We apply the tool
+  and metrics to well known examples of web mail apps, and show that
+  important conclusions can be drawn even before the first prototype
+  is built.
+  
 \end{abstract}
 
 \keywords{Authors' choice; of terms; separated; by semi\-colons;
@@ -119,12 +131,12 @@ supported.
 
 Adopting Usage Centered Development practices is effective, as is
 following established design principles~\cite{constantine99}. Early
-prototyping~\cite{buxton07} and exploration of the 5-dimensional prototyping
-space~\cite{mccurdy06} is one of the most effective techniques,
-especially when paired with usability investigations based on user
-testing or heuristic evaluations.
+prototyping~\cite{buxton07} to explore part of the 5-dimensional
+prototyping space~\cite{mccurdy06} is one of the most effective
+techniques, especially when paired with usability investigations based
+on user testing or heuristic evaluations.
 
-However, it requires development of prototypes that are usually
+However, it still requires development of prototypes that are usually
 developed with certain tasks in mind, and therefore are quite
 restricted in terms of depth and breadth of supported use
 cases. Furthermore, usability results are always surrounded by a cloud
