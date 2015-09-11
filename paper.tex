@@ -156,26 +156,27 @@ We present an approach that allows a designer to quickly
 \item understand how prone the application is to user navigation
   errors;
 \item understand how recoverable the application is from those errors;
-\item support task analysis and task / scenario design;
+\item support task analysis and task / scenario design.
 %\item support interaction design (IxD) in terms of consistency, error-proneness, and recovery premature commitment;
-\end{inparaenum}.  
+\end{inparaenum}
 %
-Our approach further allows different designs to be
-objectively compared to support designers in evaluating interaction
-sequences. To explain our work we present a case study comparing four
-different web mail front ends. We have chosen this domain because it
-is very well understood by readers and yet those trivial questions
-lead to non trivial results.
+Our approach further allows different designs to be objectively
+compared to support designers in evaluating interaction sequences. To
+explain our work we present (\S~\nameref{sec:casestudy}) a case study
+comparing four different web mail front ends. We have chosen this
+domain because it is very well understood by readers and yet those
+trivial questions lead to non trivial results.
 
 The approach is based on UML state-chart models of the user interfaces
 which are automatically processed to produce \emph{interaction
   graphs}. These are then used to unfold \emph{execution traces} that
 are dependent on the specific usage scenarios being considered in the
-analysis. On traces several graph-theoretic computations can be
-performed to produce a dashboard of different results that provide the
-answers. Except for development of models and specification of the
-desired scenarios, the other steps are totally automatic; models of a
-design could be developed in a matter of a couple of hours.
+analysis (\S~\nameref{sec:traces}). On traces several graph-theoretic
+computations can be performed to produce a dashboard of different
+results that provide the answers. Except for development of models and
+specification of the desired scenarios, the other steps are totally
+automatic; models of a design could be developed in a matter of a
+couple of hours.
 
 Developing good user interfaces for web or mobile applications is a
 complex and expensive endeavour. One reason is the combination of
