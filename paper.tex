@@ -31,6 +31,7 @@
 \usepackage{booktabs}
 \usepackage{ccicons}
 \usepackage{todonotes}
+\newcommand{\mytodo}[1]{\todo[inline]{#1}}
 \usepackage{soul}
 \usepackage{paralist}
 \usepackage{listings}
@@ -80,9 +81,7 @@
 % End of preamble. Here it comes the document.
 \begin{document}
 
-\title{Measuring Interaction Design\\
-Measuring Interaction before developing prototypes\\
-Measuring Interaction Graphs}
+\title{Measuring Interaction Design}
 
 \numberofauthors{2}
 \author{%
@@ -99,22 +98,22 @@ Measuring Interaction Graphs}
 \maketitle
 
 \begin{abstract}
-  Early development of prototypes of user interfaces is good
-  practice. However, they have to cover specific usage scenarios, and
-  because they are limited in focus, the whole picture of the user
-  interface is easily lost. Even simple questions dealing with number
-  and length of interaction paths or impact of possible user errors
-  can be answered only for the specific scenarios being analysed.
+  Early prototyping of user interfaces is an established good
+  practice. However, because prototypes cover only some usage
+  scenarios, the whole picture of the user interface is easily
+  lost.  Questions dealing with number of required steps,
+  possible interaction paths or impact of possible user errors can be
+  answered only for the specific scenarios being analysed and after
+  tedious manual inspection.
 
   We present a tool that transforms models of a user interface into a
-  graph. This is then used to specify usage scenarios, and to generate
-  possible interaction paths. Metrics based on possible paths, with or
-  without possible mistakes, can be easily computed. When applying
-  these metrics get precise and objective values that can be used to
-  compare designs or to identify weakness. When applying them to mail
-  applications, we learn for example that Gmail has \hl{7 times more
-  optimal paths, it has 4x more paths include at most one possible
-  user error, that it has 20\% fewer steps.}
+  graph, upon which usage scenarios can be easily specified, and used
+  to compute possible interaction paths. Metrics based on possible
+  paths, with or without possible user errors, can be easily computed.
+  For example, when applying them to mail applications, we learn that
+  Gmail has 3 times more shortest routes, has 2x more routes that
+  include one user error, has routes with 13\% fewer steps, but has
+  the smallest probability to hit an optimal route.
 
   
 \end{abstract}
@@ -128,7 +127,7 @@ Measuring Interaction Graphs}
 \section{Introduction}
 
 \begin{quote}
-  Subcommittee: Technology, Systems, and Engineering
+\mytodo{ Subcommittee: Technology, Systems, and Engineering
 
 People we should pay particular attention to:
 Caroline Appert
@@ -148,12 +147,13 @@ performance. Systems and technology contributions will be judged by
 their technical innovation and/or ability to connect, SIMPLIFY or
 enrich interactions, for example in intelligent interfaces and
 mobile/ubiquitous computing.
+}
 
 \end{quote}
 
 
 We present an approach that allows a designer to assess interaction
-design (IxD) qualities such as efficiency, consistency,
+design (IxD) qualities such as efficiency,
 error-proneness and recovery from premature committment. Key
 importance is given to the ability to quickly
 \begin{inparaenum}[(a)]
@@ -162,86 +162,95 @@ importance is given to the ability to quickly
 \item understand how prone the UI is to user navigation
   errors;
 \item understand how recoverable the UI is from those errors; and,
-\item support task analysis and task/scenario design.
+\item perform objective quantitative comparison of different designs
+  to support construction and engineering of interactive systems.
 \end{inparaenum}
-%
-This allows different designs to be objectively compared to support
-designers in the construction and engineering of interactive
-systems. To explain our work we present a comparison of four different
-web mail front ends. We have chosen this domain because it is very
-well known and yet several trivial questions lead to non trivial
-results. We applied the same techniques also in other domains, such as
-HVAC and other embedded UIs.
 
-The approach is based on UML statechart models of UIs which are
-automatically processed to produce \emph{interaction graphs}. These
-are then used to specify interaction scenarios and unfold interaction
-paths (called \emph{execution traces}) determined by the specific
-scenarios being considered. Traces are fed to several graph-theoretic
-computations which produce a dashboard with different results with the
-answers. Except for development of models and specification of the
-desired scenarios, which have to be done manually, the other steps are
-totally automatic; models of a design (such as the ones shown in the
-paper) could be developed in a matter of a couple of hours.
+To explain our work we present a comparison of four web mail front
+ends. We have chosen this domain because it is easy to understand and
+yet several trivial questions are not easily answered. We applied
+the same techniques also in other domains, such as HVAC and other
+embedded UIs.
+
 
 Developing good UIs for web or mobile applications is a
 complex and expensive endeavour. One reason is the combination of
 devices, interaction modalities and workflows that need to be
 supported.
 %
-Adopting Usage Centred Development practices is effective, as is
+Adopting Usage Centered Development (UCD) practices is effective, as is
 following established design principles~\cite{constantine99}. In
 particular, one of the most effective technique is early
-prototyping~\cite{buxton07} to explore part of the five-dimensional
-prototyping space~\cite{mccurdy06}. It is particularly effective when
+prototyping to explore part of the five-dimensional fidelity
+prototyping space~\cite{mccurdy06,buxton07}. It is particularly effective when
 paired with usability investigations based on user testing or
-heuristic evaluations~\cite{rubin08,preece02}.
+heuristic evaluations~\cite{preece02,rubin08}.
 
-However, it requires prototypes which are usually developed with
+However, UCD requires prototypes which are usually developed with
 certain tasks in mind, and therefore are quite restricted in terms of
 depth, breadth, dynamics and data. Furthermore, in addition to the
 possible bias introduced by prototypes, usability results are always
 surrounded by a cloud of uncertainty, due to subjectivity introduced
 by participants and facilitators or by other contingency factors
 involved in the analysis. Thus, although a  significant effort
-needs to be expended to develop and use prototypes, less than optimal
+needs to be directed to develop and use prototypes, less than optimal
 results are obtained. 
 
-Even worse, there might be questions whose answer cannot be easily
-found. For example, given one or more potential IxD solutions and some
-usage scenarios, interesting questions could include: ``How many
-different ways can be followed by the user to carry out the scenario?'', ``Which
-are the shortest ones?'', ``If a user makes a mistake, would he or she
-be able to recover?'', ``How many steps would the recovery
-require?''. When designing and evaluating embedded UIs (such as when
-dealing with plane's cockpits~\cite{conversy07}), other relevant
-questions might include ``How would the above properties change if we
-add a certain a widget?'', or ``... if we replace a widget with
-another?''.  At the moment, even these straightforward questions are
-quite complicated to answer. In fact, they require development of
-prototypes, inspecting them, manual tracking of which screens and
-widgets are used at which stage, and a systematic manual analysis.
+Even worse, there might be questions that cannot be cannot be easily
+answered. Given one or more potential designs and some usage
+scenarios, interesting questions could include: ``How many different
+routes can be followed by the user to carry out the scenario?'',
+``Which are the shortest ones?'', ``If a user makes a mistake, would
+he or she be able to recover?'', ``How many steps would the recovery
+require?''. In a different setting, when designing and evaluating
+embedded UIs (such as when dealing with plane's
+cockpits~\cite{conversy07}), other relevant questions might include
+``How would the above properties change if we add a certain a
+widget?'', or ``... if we replace a widget with another?''.  At the
+moment, these straightforward questions are quite complicated to
+answer. In fact, they require development of prototypes, inspecting
+them, manual tracking of which screens and widgets are used at which
+stage, and a systematic manual analysis.
 
-This should not be the case, however. These answers provide important
-insights to a designer, and potentially support assements of potential user
-flexibility, user efficiency, error proneness, ability to recover,
-compactness and consistency of a design.
+This should not be the case, however. Answers to these questions could
+be automatically computed. In this way a system could provide
+important insights to a designer, and  support assements of
+potential user flexibility, user efficiency, error proneness, ability
+to recover, compactness and consistency of a design.
 
-Our contribution consists of the development of a tool that transforms
-models and scenario specifications into interaction paths, and the
-definition of metrics that provide concise, precise and objective
-measures of a design. The examples included in the paper show that
-among four web mail applications, and with respect to a typical usage
-scenario, Gmail is the most efficient and flexible UI, with the best
-ability to recover from certain mistakes. In fact, Gmail has the
-largest number of shortest sequences of steps (even when users are
-supposed to make 1 or 2 mistakes), but when users make more than 2
-mistakes the number of paths drops significantly; on average, best and worst
-cases, Gmail features also shorter paths, requiring \hl{CHECK 20\% fewer steps};
-however, the probability that a user hits an optimal path with Gmail
-is almost half of that of another application, and the probability
-that a random walker hits a state that is not due to a mistake is
-\hl{SAY SOMETHING}.
+Our approach is based on UML statechart models of UIs which are
+automatically processed to produce \emph{interaction graphs}. These
+graphs are then used to specify interaction scenarios and to unfold
+the possible interaction paths (called \emph{execution traces})
+determined by the specific scenarios being considered. Traces are fed
+to several graph-theoretic computations which produce a dashboard with
+different results. Except for development of models and specification
+of the desired scenarios, which have to be done manually, the other
+steps are totally automatic; models of a design (such as the ones
+shown below) can be developed in a matter of a couple of hours.
+
+Our contribution consists of
+\begin{inparaenum}[(a)]
+\item the idea of using a model to specify interaction scenarios,
+\item the development of a tool (MIG-TOOL, Measuring Interaction
+  Graphs Tool) that transforms models and scenario specifications into
+  interaction paths, and
+\item the definition of metrics that provide concise, precise and
+  objective measures of a design.
+\end{inparaenum}
+The examples included in the paper show that among four web mail
+applications, and with respect to a typical usage scenario, Gmail is
+the most efficient and flexible UI, with the best ability to recover
+from user errors, but only for users that possess a certain level of
+proficiency. In fact, Gmail has the largest number of shortest paths
+(when users are supposed to make 0 or 1 error); when users make 2 or
+more errors the number of paths drops significantly, reducing the
+error-proneness of the UI; on the best case, Gmail features also the
+shortest paths, requiring 13\% fewer steps; however, the probability
+that a user hits an optimal path with Gmail is 10 times smaller than
+the best of the other applications, and the probability that a random
+walker hits a state that is not due to an error is 10\% smaller than
+the best of the other applications.
 %
 These values suggest that Gmail offers more ways to accomplish tasks
 included in the scenario, that comparably more of these ways do not
@@ -249,8 +258,9 @@ involve extra steps, that they require fewer steps, and that it might
 be more difficult for novice users to exploit the most efficient
 ways. Further inspections show that some differences are due to the
 slightly different interaction structures adopted for uploading
-messages. If Gmail didn't exist yet, its designers could obtain these
-answers well before performing usability studies.
+messages. If Gmail didn't exist yet, by using MIGTOOL its designers
+could obtain these answers well before developing prototypes and
+performing usability studies.
 
 \section{Background}
 \label{sec:background}
@@ -384,6 +394,8 @@ Actions specified in a scenario are called \texttt{bridges}, because
 they represent one or more edges in the graph that have to be followed
 when carrying out the 
 
+
+issues dealing with complexity of searching paths
 
 \section{Comparing applications}
 \label{sec:casestudy}
@@ -544,28 +556,38 @@ Gmail has the highest number of order 0 and 1 paths, and the highest
 difference between the number of order 0 and 1, and between order 1
 and 2 (at least 3 times as many order 0 paths than any of the other
 applications, and at least twice as many order 1 paths as the any of
-the other ones).  Gmail offers 3 times as many error-free alternative
+the other ones). 
+ Gmail offers 3 times as many error-free alternative
 paths to accomplish the scenario, which indicates that users might
-more easily follow one of those paths. However, Gmail offers also
+more easily follow one of those paths. 
+\mytodo{result}
+However, Gmail offers also
 almost twice as many order 1 paths, which means that users could be
 more easily induced into an erroneous path than when using another
-system. Because the number of order 2 or 3 paths decreases, Gmail
+system.  
+\mytodo{result}
+Because the number of order 2 or 3 paths decreases, Gmail
 reduces therefore the ``error proneness'' of this UI, for executions
 that involve 2 or 3 errors. Notice that Roundcube has the smallest
 number of order 0 paths (2 of them), which means that users are not
 given much flexibility and freedom in carrying out correctly the
-scenario.
+scenario. 
+\mytodo{result}
 For none of the systems a detour leads to dead-ends preventing the
 user to complete the scenario.
 
 Figure~\ref{fig:bestcase} shows the length of paths in the best case,
 i.e., when users would always choose the shortest route. Gmail offers
 the shortest paths across the four detour orders (for order 0 the
-length is 13 steps; for order 3 the length is 17 steps; the other
+length is 13 steps, saving more than 13\% steps compared to other
+applications; for order 3 the length is 17 steps; the other
 applications are remarkably similar among them).  A plausible
 interpretation is therefore that Gmail not only offers many more
 error-free paths, but also gives the shortest ones. Users are given
-more flexibility and more efficiency.
+more flexibility and more efficiency.  \mytodo{result} Because also
+paths with order 1 or more are the shortest ones among the four
+applications, Gmail also makes users more efficient in recovering from
+errors.  \mytodo{result}
 
 \begin{figure}[htb]
   \centering
@@ -591,7 +613,7 @@ more flexibility and more efficiency.
   \label{fig:freqopt}
 \end{figure}
 
-To combining these two results, we can easily compute the frequency of
+To combine these two results, we can easily compute the frequency of
 paths with different length. Figure~\ref{fig:freqopt} shows, for each
 application, the frequency of order 0 paths, the frequency of paths
 with length less or equal to 15 (the minimum length across the four
@@ -600,14 +622,15 @@ ones). These values show that Gmail users have the lowest probability
 to hit an order 0 path (because of the relative large number of order
 1 paths made available by Gmail), have the highest probability to hit
 a path with length 15 or less, have the lowest probability of hitting
-the shortest paths.  Thus, flexibility and efficiency that can be
-exploited with Gmail is counterbalanced by the required knowledge and
-capability of chosing an optimal path. In other words, Gmail offers
+the shortest paths (10 times smaller than the best of the other
+applications).  Thus, the flexibility and efficiency that can be
+exploited with Gmail are counterbalanced by the required knowledge and
+capability of chosing an optimal path. In particular, Gmail offers
 many detours of order 1 which increase flexibility for some users and
-might decrease effectiveness for other ones.
+might decrease effectiveness for less knowledgeable ones.
+\mytodo{result}
 
-
-% >   d=0.050 # 20% chances that a user makes a generic mistake
+% >   d=0.050 # 5% chances that a user makes a generic mistake
 % >   dprh=detour.page.rank(sc.hom,3,d);dprh
 %          0          1          2          3 
 % 0.73455373 0.11735984 0.05684419 0.09124223 
@@ -623,8 +646,8 @@ might decrease effectiveness for other ones.
 
 Another probabilistic analysis can be performed using page rank, which
 can be used to compute the probability that a random walk in a graph
-visits a certain vertex. We computed the page rank (with a damping
-value of 5\% - meaning that the randowm walker with probability 5\%
+visits a certain vertex~\cite{page1999pagerank}. We computed the page rank (with a damping
+value of 5\% - meaning that the random walker with probability 5\%
 jumps to an arbitrary state and probability 95\% chooses one of the
 actions available in the current state) for each vertex in the graph,
 and then added the page rank value for vertices with different detour order.
@@ -645,7 +668,17 @@ which is the highest. Thus, to compare Gmail with SquirrelMail, a
 completely random usage of SquirrelMail has 10\% more probability of
 hitting an error-free state than Gmail. That advantage is reduced when
 considering order 0 and 1 paths, because with SquirrelMail the
-probability is 85\% and Gmail it is 87\%.
+probability is 85\% and Gmail it is 87\%.  This means that somebody
+with no knowledge on how to use an email front end, when using Gmail
+would have 10\% fewer chances of carrying out the scenario without
+making any error, as opposed to when using SquirrelMail: SquirrelMail
+provides more guidance. Across the four UIs, the probability of making
+at most 1 error is approximately the same\footnote{These results are
+  not very sensitive to the value chosen for the damping factor:
+  differences across the four applications are very similar when $d$
+  ranges in $[0.05,0.20]$.}.
+
+\mytodo{result}
 
 Manual inspection of the shortest paths indicates that one reason of
 the higher potential efficiency offered by Gmail is due to the
@@ -657,6 +690,7 @@ select the file(s) and they are automatically uploaded, whereas in
 other applications one has to explicitly perform the uploading step
 after selecting them.
 
+\mytodo{result}
 
 \begin{figure}
   \centering
@@ -678,6 +712,7 @@ compact design (fewer actions to do the same things), and SquirrelMail
 is even more compact when it comes to the different types of actions;
 thus it could be easier to learn.
 
+\mytodo{result}
 
 \subsection{Comparing scenarios}
 
@@ -701,6 +736,7 @@ replying to a read one. On average, when composing, users could be
 9\% more efficient, and they are 4 times more likely to do the right
 things. Thus, Horde is more suitable for composing new messages than
 it is for replying to existing ones.
+\todo[inline]{result}
 
 \subsection{Adding features}
 
@@ -721,10 +757,10 @@ speed than the set one, system A automatically disengages.
 Thus, one possible design question is ``What are the effects of adding
 these functionalities?'' in a typical driving scenario where a speed
 is selected, then the system is disengaged, and then the same speed
-needs to be set? 
+needs to be set.
 
 System S (where we assumed that re-setting the speed is done manually
-by the driver with 4 actions on ``up'' and ``down'' to get
+by the driver with 4 actions on ``up'' and ``down'' to
 approximately get the same speed) leads to 1 order 0 path requiring 7
 steps; there are 8 order 1 paths with average length  9.4. The
 probability of hitting the optimal path is 0.11; action density is
@@ -750,14 +786,9 @@ Therefore we can conclude that:
   to be performed at each moment, being therefore potentially easier
   to learn and remember.
 \end{inparaenum}
+\todo[inline]{result}
 
 
-\hl{present them in terms of :
-consistency,
-error proneness, efficiency, premature committment, flexibility}
-
-
-\clearpage
 
 
 
@@ -791,8 +822,19 @@ error proneness, efficiency, premature committment, flexibility}
 \section{Discussion}
 \label{sec:discussion}
 
+feasibility:
+
+sensitivity with respect to models
+
+dire di horrocks \cite{horrocks99}
+
+dire di agile modeling \cite{ambler02}
+
 \hl{dire} di SEPARATING concerns, ad es M-V-C, per vedere le
   implicazioni di ciascuna e non soffrire di ``saturation'', vedi adams
+
+
+valdiity of results:
 
 dire che le ns analisi sono prive di assunzioni su conoscenze
 abilita'; le probability sono puramente sulla base delle frequenze.
@@ -801,11 +843,11 @@ dire di cogtools: noi non prevediamo i tempi (richiede modeling
 psicologico e dei specifici widgets). pero' forniamo un'analisi che
 puo' guidare chi applica cogtool.
 
-dire di horrocks \cite{horrocks99}
-
-dire di agile modeling \cite{ambler02}
-
-issues dealing with complexity of searching paths
+MIGTOOL is part of a suite of model-based tools for designing,
+analysing and testing user interfaces developed by the company
+ANONYMIZED. Development of a web-based user interface of MIGTOOL is
+underway; the company plans to make it freely available for research
+purposes. 
 
 \section{Conclusion}
 \label{sec:conclusion}
