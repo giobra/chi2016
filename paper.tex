@@ -34,7 +34,7 @@
 \newcommand{\mytodo}[1]{\todo[inline]{#1}}
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\eg}{\emph{e.g.}}
-\newcommand{\migtool}{MIG-Tool\ }
+\newcommand{\migtool}{MIGtool\ }
 \usepackage{soul}
 \usepackage{paralist}
 \usepackage{listings}
@@ -121,7 +121,7 @@
   
 \end{abstract}
 
-\keywords{Experimental; Evaluation; Statecharts: UML; UML-IDEA; Testing.}
+\keywords{Experimental; Evaluation; Statecharts: UML; Metrics; Testing.}
 
 \category{H.5.1}{Information interfaces and presentation (e.g., HCI)}{Multimedia Information Systems}. 
 \category{H.5.2}{Information interfaces and presentation (e.g.,
@@ -293,16 +293,8 @@ it, Parnas claimed that several kinds of usability problems would not
 occur if the designer adopted a design framework where states and
 their transitions are made explicit.
 
-In many cases \emph{statecharts} are used (a generalization of finite
-state automata, with an expressive language that includes hierarchic
-levels of abstraction, concurrent regions, states and pseudostates, an
-extended state notion based on an arbitrary computational model).
-Harel, the inventor of statecharts, gives an interesting retrospective
-view of how they were invented, back in early eighties, and why they
-were appealing also to non experts~\cite{harel09}.  For the sake of
-brevity, we refrain from describing them here in detail; the
-interested reader is referred to the UML standard~\cite{uml241} or
-some of the textbooks that deal with them, like~\cite{samek09}.
+In many cases \emph{statecharts} are used, a generalization of finite
+state automata, which is a more expressive language.
 %
 Horrocks showed how statecharts can be  used to model and
 specify the dynamics of typical desktop UIs~\cite{horrocks99}. While
@@ -310,7 +302,7 @@ providing many interesting insights on how and why one should use
 statecharts to do so, this nice work does not address how such a
 specification could be \emph{automatically} processed.
 %
-This idea was later on greatly expanded by
+This idea was later on expanded by
 Thimbleby~\cite{thimbleby07} , which discusses the use of statecharts
 as meta-models for user interfaces; they are seen as crucial
 representations that allow a designer to fully appreciate how devices
@@ -527,7 +519,7 @@ assumed to be constant, corresponding to users that are not learning
 while interacting with the system.
 %
 Our approach is based on statecharts, a language that in practice is
-much more concise than Markov models, making it easier to specify the
+more expressive than Markov models, making it easier to specify the
 UI behavior, especially in cases where the set of buttons change over
 time. While our examples do not make use of probabilities, this is
 very easy to cope with (see the Discussion at the end of the paper for
@@ -536,8 +528,6 @@ to~\cite{thimbleby2001markov}, our approach could be used when
 conservative results that do not rely on psychological assumptions are
 sought. 
 
-
-centrality measures
 
 A discussion of social network analysis metrics applied to interaction
 design is provided in~\cite{thimbleby09:sna:eics09}. Once more, a UI
@@ -561,7 +551,24 @@ with which ``buttons'' can be used in modern web applications. For
 infusion pumps the UI is more constrained in how a task can be carried
 on. 
 
+vedere \cite{hilbert2000}
+\mytodo{However, because user interface
+  events are typically voluminos and rich in detail, automated support
+  is generally required to extract information at a level of
+  abstraction that is useful to investigators interested in analyzing
+  application usage or evaluating usability. This survey examines
+  computer-aided techniques used by HCI practitioners and researchers
+  to extract usability-related information from user interface
+  events. A framework is presented to help HCI practitioners and
+  researchers categorize and compare the approaches that have been, or
+  might fruitfully be, applied to this problem.
 
+  They - mention levels of abstractions in user events; what we deal
+  with here are ``abstract interaction level'' events - they mention
+  the problem of detecting sequences from event streams, which in a
+  sense is the converse of what we do - they discuss partial matches
+  between event streams and ``target'' sequences; we do the converse:
+  generation of event streams with detours from target sequences.  }
 
 % Voida\cite{voida} says:
 % We describe an alternative model for organizing the
@@ -584,42 +591,154 @@ on.
 % capabilities should be integrated directly as a first-class
 % interaction technique. 
 
-\section{Generation of interaction paths}
+\section{Generation of interaction traces}
 \label{sec:traces}
 
-\begin{quote}
-  here we describe how we transform state machines into graphs, how we
-  specify scenarios, how the system computes traces, how metrics are
-  computed. 
-\end{quote}
+Interaction traces are paths (\ie, sequences of connected states
+of the model) that users can follow to perform a given scenario.  The
+generation process includes the following steps:
+\begin{inparaenum}[(1)]
+\item automatic flattening of the statechart model;
+\item manual definition of the interaction scenario;
+\item automatic generation of execution traces; and
+\item manual interactive analysis of results.
+\end{inparaenum}
 
-outline:
-- modeling, statecharts
-- flattening, ixgraph generation
-- scenario def
-- generation of traces
-- analysis
+\subsection{Processing models }
 
-modeling:
-- statecharts details
+\migtool\ takes as input UML statecharts, which are a
+generalization of finite state automata (FSA), with an expressive language
+that includes hierarchic levels of abstraction, concurrent regions,
+states and pseudostates, an extended state notion based on an
+arbitrary computational model.  Harel, the inventor of statecharts,
+gives an interesting retrospective view of how they were invented,
+back in early eighties, and why they were appealing also to non
+experts~\cite{harel09}.  For the sake of brevity, we refrain from
+describing them here in detail; the interested reader is referred to
+the UML standard~\cite{uml25} or some of the textbooks that deal with
+them, like~\cite{samek09}.
 
+Using statecharts, behavior of UIs can be represented by associating
+states to screens and particular configuration of widgets, and
+transitions to actions performed by users or by the system itself. 
 
-flattening state machine \cite{briand2005:test:uml}
-- 
+Because statechart models take advantage of abstraction features and a
+rich set of connecting pseudostates, they are not suitable to be
+directly processed to compute metrics. For this reason, \migtool first
+\emph{flattens} the model. Flattening is a process often used when
+statecharts have to be automatically
+processed~\cite{briand2005:test:uml}, and it means to produce a FSA
+that is behaviorally equivalent to the original statechart, where
+hierarchy between states and concurrent regions are removed. In most
+cases this leads to an exponential number of states and transitions,
+but because the process is completely automatic and in our case there
+is no need to manually inspect the resulting FSA, this aspect is in
+many cases not relevant.  Flattening statecharts is an often used
+process when they have to be automatically
+processed~\cite{briand2005:test:uml}.  \migtool\ produces an XML
+representation (graphML) of the resulting FSA, the \emph{interaction
+  graph}. It is a directed multigraph, potentially with cycles and
+loops, with edges that are labeled with the name of the corresponding
+action\footnote{A directed multigraph is a graph such that there is at
+  least a pair of vertices that are connected by 2 or more edges that
+  have the same direction. Cycles are paths that include 2 or more
+  occurrences of the same edge. Loops are edges that start and end on
+  the same vertex.}. In the following we will be referring to the
+interaction graph, and will be using as synonymous the terms ``state''
+and ``vertex'', and ``action'' and ``edge''.
 
-Notice that a scenario specifies only the desired occurrences of user
-actions, not the necessary ones. For example, the model specifies that
-in order to view a conversation while reading another one, one has to
-\texttt{goBack} to the inbox first. It is the task of \migtool to
-unfold cyles in the graph and compute all the  paths that connect the
-desired user actions. 
+\subsection{Defining usage scenarios}
 
-Actions specified in a scenario are called \texttt{bridges}, because
-they represent one or more edges in the graph that have to be followed
-when carrying out the 
+Because in all but the most trivial interaction graphs there are
+cycles, the set of possible interaction traces is usually
+infinite. For this reason, scenarios need to be defined as constraints
+on the possible execution traces that can be generated.  Users of
+\migtool\ define interaction scenarios by specifying key steps (called
+\emph{bridge sets}) that users are expected to go through; we call
+this process \emph{grounding usage scenarios on models}. Each bridge
+set is specified by selecting a subset of the edges of the interaction
+graph. Often a scenario might require also optional steps. In such a
+case, the specification includes an initial state and a sequence of
+bridge sets. For example, to specify a scenario for replying to an
+email message, one could select all the edges associated to the action
+``reply'' (bridge set 1), followed by edges labeled with ``typeBody''
+(bridge set 2), followed by edges labeled with ``send'' (bridge set
+3). A well formed bridge set would consist of 1 or more edges (a
+bridge set with 0 edges would make the scenario unviable). In this way
+scenarios with cycles can be formulated (\eg, reply to two
+messages). Each pair of consecutive bridge sets makes a \emph{stage}
+of the scenario.
+%
+To cope with multi edges, the interaction graph is \emph{simplified}:
+all edges between  pairs of vertices are merged into a single one,
+whose label includes the original ones.
 
+\subsection{Searching traces}
 
-issues dealing with complexity of searching paths
+Quite expressive languages can be conceived for grounding scenarios
+(\eg, languages based on regular expressions). But such expressivity
+bonus needs to be balanced with computational tractability: even
+models with 50 states might lead to interaction graphs with several
+hundred states and several thousand edges, leading to an enormous
+number of possible paths to filter even for scenarios with just a few
+stages. 
+
+To cope with this we implemented a path searching algorithm that
+processes each of the stages sequentially, starting from the initial
+initial state. Given a bridge set $B_i$, the algorithm does a
+breadth-first search of all the geodesic paths\footnote{``Geodesic''
+  is synonymous with ``shortest''.}  that connect each of the ending
+vertices of edges in the bridge set $B_i$ with some of the starting
+vertices of edges in bridge set $B_{i+1}$. If some of the starting
+vertices cannot be reached, then the bridge is dropped. \migtool\
+creates a new graph from the geodesic paths found for each stage, and
+then joins these graphs so that geodesic paths found for stage $i$ are
+joined with those of ${i+1}$. These global paths, connecting the
+initial state and the remaining bridges of the last bridge set of the
+scenario are called \emph{execution traces}.
+
+Notice that a scenario specifies only the desired occurrences of
+actions, not all the necessary ones. For example, if the model
+prescribes that in order to \texttt{view(message)} while reading
+another one, one has to \texttt{goBack} to the inbox first, a scenario
+specifying two consecutive \texttt{view(message)} would lead to
+geodesic paths that include also the \texttt{goBack} action, even if
+it is not specified in the scenario. It is the task of \migtool to
+unfold cyles in the graph and search all the geodesic paths that
+connect the desired user actions.
+
+\subsection{Detour traces}
+The algorithm described so far finds (some of) the global paths
+connecting the initial state to one or more bridges for each of the
+specified stages. The globally shortest path is identified, together
+with other viable alternatives. These traces are called
+\emph{detour order 0} traces (and states).
+
+For each stage, up to a maximum detour order $H$, the search algorithm
+creates traces with detour order $k+1$ by collecting states $D_k$
+with order $0$ up to $k$, and by identifying the neighbours ($N_k$)
+of $D_k$ (which are the states not included in $D_k$ that are
+connected through an edge to some state in $D_k$). Edges connecting
+$D_k$ with $N_k$ represent deviations that users might follow, and
+geodesic paths between $N_k$ and $D_k$ constitute recovery paths that
+users might follow to complete the scenario from states in
+$N_k$. These deviations and recovery paths are joined and constitute
+the traces of order $k+1$.  It could happen that
+for some state in $N_k$ there is no path leading to any vertex in
+$D_k$: in such a case the deviation leads to a dead end that prevents
+the user to complete the scenario.
+
+In general, \migtool is used to process a model against a scenario
+and to generate execution traces of detour order = 0,
+..., H. The time complexity of the search algorithm is
+$\mathcal{O}(KM(E+V)))$, where there are $K$ bridge sets, the mean
+size of them is $M$, the interaction graph has $V$ vertices and $E$
+edges. Therefore it scales pretty well with the size of the
+interaction graph and/or complexity of the scenarios. In practice for
+interaction graphs consisting of about 10000 edges and a dozen of
+bridge sets, on a low-cost PC it takes about 15 seconds to generate
+traces of order 0 to 3.
+
 
 \section{Comparing applications}
 \label{sec:casestudy}
@@ -1105,9 +1224,10 @@ that could be performed, for example, with CogTool~\cite{john04cogtool}.
 
 \migtool is part of a suite of model-based tools for designing,
 analysing and testing user interfaces developed by the company
-ANONYMIZED. Development of a web-based user interface of \migtool is
-underway; the company plans to make it freely available for research
-purposes. 
+ANONYMIZED. \migtool is implemented partly in Java (model processing)
+and partly in R/iGraph. Development of a web-based UI of \migtool is
+underway; \migtool will be made freely available for research
+purposes.
 
 \section{Conclusion}
 \label{sec:conclusion}
