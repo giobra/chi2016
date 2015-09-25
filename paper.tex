@@ -34,7 +34,7 @@
 \newcommand{\mytodo}[1]{\todo[inline]{#1}}
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\eg}{\emph{e.g.}}
-\newcommand{\migtool}{MIGtool\ }
+\newcommand{\migtool}{MIGtool}
 \usepackage{soul}
 \usepackage{paralist}
 \usepackage{listings}
@@ -101,22 +101,22 @@
 \maketitle
 
 \begin{abstract}
-  Early prototyping of user interfaces is an established good
-  practice. However, because prototypes cover only some usage
-  scenarios, the whole picture of the user interface is easily
-  lost.  Questions dealing with number of required steps,
-  possible interaction paths or impact of possible user errors can be
-  answered only for the specific scenarios being analysed and after
-  tedious manual inspection.
+  Early prototyping of user interfaces is an established good practice
+  in interactive system development. However, prototypes cover only
+  some usage scenarios, and questions dealing with number of required
+  steps, possible interaction paths or impact of possible user errors
+  can be answered only for the specific scenarios and only after tedious
+  manual inspection.
 
-  We present a tool that transforms models of a user interface into a
-  graph, upon which usage scenarios can be easily specified, and used
-  to compute possible interaction paths. Metrics based on possible
-  paths, with or without possible user errors, can be easily computed.
-  For example, when applying them to mail applications, we learn that
-  Gmail has 3 times more shortest routes, has 2x more routes that
-  include one user error, has routes with 13\% fewer steps, but has
-  the smallest probability to hit an optimal route.
+  We present a tool (\migtool) that transforms models of a user
+  interface into a graph, upon which usage scenarios can be easily
+  specified, and used to compute possible interaction paths. Metrics
+  based on possible paths, with or without user errors, can be easily
+  computed.  For example, when applying them to compare mail
+  applications, we show that Gmail has 3 times more shortest routes,
+  has 2x more routes that include a single user error, has routes with
+  13\% fewer steps, but optimal routes have the smallest probability
+  to be chosen.
 
   
 \end{abstract}
@@ -129,36 +129,34 @@
 
 \section{Introduction}
 
-\begin{quote}
-\mytodo{ Subcommittee: Technology, Systems, and Engineering
+% \mytodo{ Subcommittee: Technology, Systems, and Engineering
 
-People we should pay particular attention to:
-Caroline Appert
-Conversy, Stéphane
-Nebeling, Michael
+% People we should pay particular attention to:
+% Caroline Appert
+% Conversy, Stéphane
+% Nebeling, Michael
 
-Keyword we need to pay attention to:
-This subcommittee will focus on technology, systems and engineering
-contributions that enable, improve, or advance interaction. This will
-include software and hardware technologies and systems that enable and
-demonstrate novel interactive capabilities, as well as languages,
-methods and tools for \hl{CONSTRUCTION AND ENGINEERING} of interactive
-systems. Engineering contributions should clearly demonstrate how they
-address interactive systems concerns such as, for example,
-scalability, reliability, interoperability, testing, and
-performance. Systems and technology contributions will be judged by
-their technical innovation and/or ability to connect, SIMPLIFY or
-enrich interactions, for example in intelligent interfaces and
-mobile/ubiquitous computing.
-}
-
-\end{quote}
+% Keyword we need to pay attention to:
+% This subcommittee will focus on technology, systems and engineering
+% contributions that enable, improve, or advance interaction. This will
+% include software and hardware technologies and systems that enable and
+% demonstrate novel interactive capabilities, as well as languages,
+% methods and tools for \hl{CONSTRUCTION AND ENGINEERING} of interactive
+% systems. Engineering contributions should clearly demonstrate how they
+% address interactive systems concerns such as, for example,
+% scalability, reliability, interoperability, testing, and
+% performance. Systems and technology contributions will be judged by
+% their technical innovation and/or ability to connect, SIMPLIFY or
+% enrich interactions, for example in intelligent interfaces and
+% mobile/ubiquitous computing.
+% }
+% % 
+%\end{quote}
 
 
 We present an approach that allows a designer to assess interaction
-design (IxD) qualities such as efficiency,
-error-proneness and recovery from premature committment. Key
-importance is given to the ability to quickly
+design (IxD) qualities such as efficiency, error-proneness and
+recovery from errors. Key importance is given to the ability to
 \begin{inparaenum}[(a)]
 \item understand how supportive a user interface (UI) is with respect
   to user efficiency;
@@ -168,12 +166,12 @@ importance is given to the ability to quickly
 \item perform objective quantitative comparison of different designs
   to support construction and engineering of interactive systems.
 \end{inparaenum}
+All this can be done before developing prototypes of the UI.
 
 To explain our work we present a comparison of four web mail front
 ends. We have chosen this domain because it is easy to understand and
-yet several trivial questions are not easily answered. We applied
-the same techniques also in other domains, such as HVAC and other
-embedded UIs.
+yet several questions cannot be easily answered. We applied the same
+techniques also in other domains, such as HVAC and other embedded UIs.
 
 
 Developing good UIs for web or mobile applications is a
@@ -199,15 +197,15 @@ involved in the analysis. Thus, although a  significant effort
 needs to be directed to develop and use prototypes, less than optimal
 results are obtained. 
 
-Even worse, there might be questions that cannot be easily
+Even worse, several questions cannot be easily
 answered. Given one or more potential designs and some usage
-scenarios, interesting questions could include: ``How many different
+scenarios, interesting questions include: ``How many different
 routes can be followed by the user to carry out the scenario?'',
 ``Which are the shortest ones?'', ``If a user makes a mistake, would
 he or she be able to recover?'', ``How many steps would the recovery
-require?''. In a different setting, when designing and evaluating
+require?''. When designing and evaluating
 embedded UIs (such as when dealing with plane's
-cockpits~\cite{conversy07}), other relevant questions might include
+cockpits~\cite{conversy07}), other relevant questions include
 ``How would the above properties change if we add a certain a
 widget?'', or ``... if we replace a widget with another?''.  At the
 moment, these straightforward questions are quite complicated to
@@ -215,33 +213,35 @@ answer. In fact, they require development of prototypes, inspecting
 them, manual tracking of which screens and widgets are used at which
 stage, and a systematic manual analysis.
 
-This should not be the case, however. Answers to these questions could
-be automatically computed. In this way a system could provide
-important insights to a designer, and  support assements of
+This should not be the case, however, because answers to these
+questions can be automatically computed. In this way a system can
+provide important insights to a designer, and support assements of
 potential user flexibility, user efficiency, error proneness, ability
 to recover, compactness and consistency of a design.
 
 Our approach is based on UML statechart models of UIs which are
 automatically processed to produce \emph{interaction graphs}. These
 graphs are then used to specify interaction scenarios and to unfold
-the possible interaction paths (called \emph{execution traces})
-determined by the specific scenarios being considered. Traces are fed
-to several graph-theoretic computations which produce a dashboard with
-different results. Except for development of models and specification
-of the desired scenarios, which have to be done manually, the other
-steps are totally automatic; models of a design (such as the ones
-shown below) can be developed in a matter of a couple of hours.
+the possible interaction paths (called \emph{execution traces}) that
+are compatible with the specific scenarios being considered. Traces
+are fed to graph-theoretic computations which produce a
+dashboard with different results. Except for development of models and
+specification of the desired scenarios, which have to be done
+manually, the other steps are totally automatic; models of a design
+(such as the ones shown below) can be developed in a matter of a
+couple of hours.
 
 Our contribution consists of
 \begin{inparaenum}[(a)]
-\item the idea of using a model to specify interaction scenarios,
-\item the development of a tool (MIG-TOOL, Measuring Interaction
+\item the idea of using a UML state machine model to specify
+  interaction scenarios,
+\item the development of a tool (\migtool, Measuring Interaction
   Graphs Tool) that transforms models and scenario specifications into
   interaction paths, and
 \item the definition of metrics that provide concise, precise and
   objective measures of a design.
 \end{inparaenum}
-The examples included in the paper show that among four web mail
+The examples presented below show that among four web mail
 applications, and with respect to a typical usage scenario, Gmail is
 the most efficient and flexible UI, with the best ability to recover
 from user errors, but only for users that possess a certain level of
@@ -261,29 +261,31 @@ involve extra steps, that they require fewer steps, and that it might
 be more difficult for novice users to exploit the most efficient
 ways. Further inspections show that some differences are due to the
 slightly different interaction structures adopted for uploading
-messages. If Gmail didn't exist yet, by using \migtool its designers
+messages. If Gmail didn't exist yet, by using \migtool\ its designers
 could obtain these answers well before developing prototypes and
 performing usability studies.
+
+Other examples shown below show what is gained when a new feature is
+added to an embedded system.
 
 \section{Background}
 \label{sec:background}
 
-The literature on using state-transition network representations for
-specifying or analysing the behavior of UIs is vast. We conducted a
-systematic-style literature review, using Google Scholar and queries
-with combinations of these phrases: ``user interface'', ``path
-analysis'', ``user trace'', ``interaction trace'', ``navigation'',
-``markov chain'', ``state transition'', ``statechart'', ``metric'',
+The literature on using state-transition networks for specifying or
+analysing the behavior of UIs is vast. We conducted a systematic-style
+literature review, using Google Scholar and queries with combinations
+of these phrases: ``user interface'', ``path analysis'', ``user
+trace'', ``interaction trace'', ``navigation'', ``markov chain'',
+``markov model'', ``state transition'', ``statechart'', ``metric'',
 ``measure''. For each query we analyzed title and abstract of the
 first 50 hits and appraised their relevance based on whether the paper
 discusses approaches for measuring user interfaces in the context of
-usability and on the basis of a model based on state transitions. This
-resulted in 78 full-text papers that were later on re-analyzed against
-the same criterion, leading to several of papers mentioned below.
+usability and on the basis of a state transition model. This resulted
+in 78 full-text papers that were later on re-analyzed against the same
+criterion, leading to several of papers mentioned below.
 %
-Several of the examined papers deal with testing user interfaces, and
-problems related to generating execution traces as a means to assess
-coverage of a test
+Many papers deal with testing user interfaces, and problems related to
+generating execution traces as a means to assess coverage of a test
 suite~\cite{ammann2008introduction,briand2005:test:uml}. They were
 excluded from the review.
 
@@ -294,21 +296,19 @@ occur if the designer adopted a design framework where states and
 their transitions are made explicit.
 
 In many cases \emph{statecharts} are used, a generalization of finite
-state automata, which is a more expressive language.
+state automata.  Horrocks showed how statecharts can be used to model
+and specify the dynamics of typical desktop
+UIs~\cite{horrocks99}. While providing many interesting insights on
+how and why one should use statecharts to do so, this nice work does
+not address how such a specification could be \emph{automatically}
+processed.
 %
-Horrocks showed how statecharts can be  used to model and
-specify the dynamics of typical desktop UIs~\cite{horrocks99}. While
-providing many interesting insights on how and why one should use
-statecharts to do so, this nice work does not address how such a
-specification could be \emph{automatically} processed.
-%
-This idea was later on expanded by
-Thimbleby~\cite{thimbleby07} , which discusses the use of statecharts
-as meta-models for user interfaces; they are seen as crucial
-representations that allow a designer to fully appreciate how devices
-behave. The overall claim is that ``If you don't understand the logic
-conveyed by a statechart model of a user interface, then you don't
-understand the behavior of the user interface''.
+This idea was later on expanded by Thimbleby~\cite{thimbleby07};
+statecharts are seen as crucial representations that allow a designer to
+fully appreciate how devices behave. The overall claim is that ``If
+you don't understand the logic conveyed by a statechart model of a
+user interface, then you don't understand the behavior of the user
+interface''.
 
 WebML~\cite{ceri:00} is one of the most successful model-driven
 approaches to web development (UIs and backend systems), with
@@ -330,13 +330,14 @@ user interface and its behavior. It offers most of the abstractions
 that are available in statecharts, mixed with the ability to specify
 so-called ``components'' that are used to display and manipulate data
 (to display details of a item, to display or select lists of items, to
-input an item). 
+input an item). None of these approaches focus directly on measures of
+usability.
 
 A rather different route for the problem of generating UIs is followed
-in~\cite{heymann2007formal}. They assume that the UI to be generated
+in~\cite{heymann2007formal}. Authors assume that the UI to be generated
 is used to supervise and to monitor an underlying machine (\eg,
 autopilot of a plane) which is modeled as a statechart. After assuming
-that the behavior of the UI can be modeled as a statechart, they
+that the behavior of the UI can also be modeled as a statechart, they
 devised an algorithm that checks whether the two models are
 compatible, and that refines the UI model so that its states and
 transitions are minimized while still allowing a correct manipulation
@@ -346,9 +347,8 @@ UIs that are correct by-construction.
 In~\cite{conversy07} the Interactive Cooperative Objects formalism is
 discussed, which is based on Petri nets, yet another state transition
 formalism.  It is used to enrich the ARINC 661 specification of
-Cockpit Display System used in interactive cockpits of airplanes, so
-that the semantics of widgets can be expressed and the behavior of a
-UI be formally analyzed.
+Cockpit Display System so that the semantics of widgets can be
+expressed and the behavior of a UI be formally analyzed.
 
 %  that are now under provides precise information
 % for communication protocol between application (called User
@@ -364,7 +364,7 @@ UI be formally analyzed.
 % dynamic or behavioural aspects.
 
 Finite state representations have been used also as a conceptual
-framework to write the code of widgets so that events and event
+framework for writing the code of widgets so that events and event
 handlers in the UI can more easily be conceived, developed and
 verified (\eg, \cite{appert2008swingstates}). 
 
@@ -442,35 +442,30 @@ verified (\eg, \cite{appert2008swingstates}).
 % uses high-level Petri nets [8] to describe their dynamic or
 % behavioural aspects.
 
-The issue of measuring UI/interaction properties based on state
-transition representations is not so well covered in the literature. A
-review of usability measuring practices~\cite{hornbaek2006current},
-under the headings \emph{measures of efficiency/usage patterns}, lists
-only number of keystrokes, mouse clicks, and visited objects as
-possible metrics. The notion of \emph{deviation from optimal solution}
-is discussed only in the context of tools for route planning in 3D
-navigation. In this paper we provide our own definition of deviation,
-which applies to interaction with the UI; we provide also our notion
-of execution traces across states of the UI, and the length of these
-traces can be used as a measure of efficiency.
+A review of usability measuring practices~\cite{hornbaek2006current}
+lists, under the headings \emph{measures of efficiency/usage
+  patterns}, number of keystrokes, mouse clicks, and visited objects
+as possible metrics. The notion of \emph{deviation from optimal
+  solution} is discussed only in the context of tools for route
+planning in 3D navigation. In this paper we provide our own definition
+of deviation, which applies to interaction with the UI; we provide
+also our notion of execution traces across states of the UI, and the
+length of these traces can be used as a measure of efficiency.
 
 Lostness~\cite{smith1996lostness,otter2000lostness} is one of the few
-metrics that were defined to measure the degree to which users become
-lost in the information space, and therefore considers the notion of
+metrics for measuring the degree to which users become lost in the
+information space, and therefore considers the notion of
 \emph{deviation}. Defined specifically for hypertext systems, lostness
-is a user performance measure that considers among others the number
-of visited nodes, the number of different nodes that were visited
-nodes, and the number of required nodes. This measure of efficiency is
+is a user performance measure which is afuncion of the number of
+visited nodes, the number of different nodes that were visited nodes,
+and the number of required nodes. This measure of efficiency is
 usually applied to traces of actual users, and is argued to be
 suitable for hypertext systems because the predominant task is
 browsing information, rather than trying to achieve specific goals. It
-therefore relaxes three assumptions: that there is a task to complete,
-that there is a correct way to carry it out, that the purpose of the
-system is to support users to carry out their tasks. The lostness
-metric can be easily computed on top of the data that we use with our
-approach; it would be yet another metric that can be provided to
-assess quality of a UI. Notice that in our case we do not need to user
-data to compute it.
+is suitable therefore whe some of the following three assumptions can
+be relaxed: that there is a task to complete, that there is a correct
+way to carry it out, that the purpose of the system is to support
+users to carry out their tasks. 
 
 A usability analysis method capable to analytically predict task
 completion times from a storyboard of the UI is
@@ -478,7 +473,7 @@ CogTool~\cite{bellamy2011cogtool}. CogTool relies on the ACT-R
 cognitive modeling engine, and allows a designer to setup a
 low-fidelity prototype of the UI. After deciding which interaction
 modality and which widgets are used to implement actions, the designer
-gets a validated estimation of how long an experienced user would
+gets an estimation of how long an experienced user would
 spend on each step. CogTool takes care of adding extra ``mental''
 steps, such as ``think'' steps, before certain patterns of provided
 steps, according to the cognitive theory underlying ACT-R. As a
@@ -499,34 +494,31 @@ in~\cite{thimbleby2001markov}, as a means to perform usability
 analysis as early as possible, even before building prototypes of the
 UI. Vertices represent states of the UI and edges correspond to user
 actions (such as pressing a push-down button).  Probabilities can be
-used as a model of the skills or knowledge of the user: equiprobable
-actions correspond to a knowledge-free user, whereas when some actions
-have a very low probability it means that for that user the action is
-unlikely to be executed (perhaps because little known). Simple
-mathematical operations on the transition matrix of the model give the
-probability that after $n$ steps from a given initial state, the UI is
-in a given state. With Markov models, by manipulating probabilities,
-the designer can plot the number of required steps as a function of
-how close the probabilities are to the designer's ``perfect''
-knowledge.  Examples discussed in the paper cover several devices,
-ranging from a simple torch (with 4 states), a microwave cooker (6
-states), a mobile phone (152 states), but all being push-down devices
-with a fixed set of buttons. This is obviously not the case for UIs of
-information systems, where some buttons may or may not be ``painted''
-on the screen. This makes it more difficult to specify the transition
-matrix. Another limitation of this approach is that probabilities are
-assumed to be constant, corresponding to users that are not learning
-while interacting with the system.
+used as a model of user knowledge: equiprobable actions correspond to
+a knowledge-free user, whereas when some actions have a very low
+probability it means that for that user the action is unlikely to be
+executed. Simple mathematical operations on the transition matrix of
+the model give the probability that after $n$ steps from a given
+initial state the UI is in a given state. With Markov models, by
+manipulating probabilities, the designer can plot the number of
+required steps as a function of how close the probabilities are to the
+designer's ``perfect'' knowledge.  Examples discussed in the paper
+cover several devices, ranging from a simple torch (with 4 states), a
+microwave cooker (6 states), a mobile phone (152 states); those are
+all push-down devices with a fixed set of buttons. This is obviously
+not the case for UIs of information systems, where buttons may change
+screen by screen. This makes it more difficult to specify the
+transition matrix. 
 %
 Our approach is based on statecharts, a language that in practice is
-more expressive than Markov models, making it easier to specify the
-UI behavior, especially in cases where the set of buttons change over
+more powerful than Markov models, making it easier to specify the UI
+behavior, especially in cases where the set of buttons change over
 time. While our examples do not make use of probabilities, this is
 very easy to cope with (see the Discussion at the end of the paper for
 some of the benefits that doing this could bring). Similarly
 to~\cite{thimbleby2001markov}, our approach could be used when
 conservative results that do not rely on psychological assumptions are
-sought. 
+sought.
 
 
 A discussion of social network analysis metrics applied to interaction
@@ -534,41 +526,31 @@ design is provided in~\cite{thimbleby09:sna:eics09}. Once more, a UI
 is modeled in terms of directed graphs (vertices are states and edges
 are actions), and various centrality metrics are used to draw
 conclusions that bear upon usability. For example, centrality measures
-(such as the Sabidussi,  Jordan, or betweenness) can be used to
-identify states that are good places to start from to get to other
+(such as Sabidussi, eccentricity, betweenness) can be used to identify
+states that are good places to start from to get to other
 states. Other metrics, such as edge betweenness, can be used to
-identify actions that are important because most of the shortest
-paths go through these actions. The paper presents compelling examples
-of using this technique to identify shortcomings in the design of
-infusion pumps. 
+identify actions that are important because most of the shortest paths
+go through these actions. The paper presents compelling examples of
+using this technique to identify shortcomings in the design of
+infusion pumps.
 %
 In our work we automatically generate graphs from statechart models,
-and tried to use these metrics. We were not able to draw sensible
-conclusions from the values we obtained (for example from the models
-presented below). One possible explanation may rest on the different
-types of models: in our case they reflect the variety and flexibility
-with which ``buttons'' can be used in modern web applications. For
-infusion pumps the UI is more constrained in how a task can be carried
-on. 
+and on some of them computed these metrics. We were not able to draw
+sensible conclusions from the values we obtained (for example from the
+models presented below). One possible explanation rests on the
+different types of models: in our case they reflect the variety and
+flexibility with which ``buttons'' can be used in modern web
+applications. For infusion pumps the UI is more constrained in how a
+task can be carried on, and this difference might reflect on the
+usefulness of those metrics.
 
-vedere \cite{hilbert2000}
-\mytodo{However, because user interface
-  events are typically voluminos and rich in detail, automated support
-  is generally required to extract information at a level of
-  abstraction that is useful to investigators interested in analyzing
-  application usage or evaluating usability. This survey examines
-  computer-aided techniques used by HCI practitioners and researchers
-  to extract usability-related information from user interface
-  events. A framework is presented to help HCI practitioners and
-  researchers categorize and compare the approaches that have been, or
-  might fruitfully be, applied to this problem.
+In~\cite{hilbert2000} several approaches to analyse streams of user
+events are discussed and compared. It is interesting to realize that
+this is, in a sense, the inverse problem of the one we tackle in this
+paper: we want to compute a subset of the possible streams of user
+events given a specification of the UI, rather than trying to abstract
+general properties from streams of events.
 
-  They - mention levels of abstractions in user events; what we deal
-  with here are ``abstract interaction level'' events - they mention
-  the problem of detecting sequences from event streams, which in a
-  sense is the converse of what we do - they discuss partial matches
-  between event streams and ``target'' sequences; we do the converse:
-  generation of event streams with detours from target sequences.  }
 
 % Voida\cite{voida} says:
 % We describe an alternative model for organizing the
@@ -594,130 +576,131 @@ vedere \cite{hilbert2000}
 \section{Generation of interaction traces}
 \label{sec:traces}
 
-Interaction traces are paths (\ie, sequences of connected states
-of the model) that users can follow to perform a given scenario.  The
-generation process includes the following steps:
+In this section we provide a description of how \migtool\ computes
+execution traces.  They are paths (\ie, sequences of connected states
+of the model) that users can follow when performing a given scenario.
+The generation process encompasses the following steps:
 \begin{inparaenum}[(1)]
 \item automatic flattening of the statechart model;
 \item manual definition of the interaction scenario;
 \item automatic generation of execution traces; and
-\item manual interactive analysis of results.
+\item interactive analysis of results.
 \end{inparaenum}
 
 \subsection{Processing models }
 
-\migtool\ takes as input UML statecharts, which are a
-generalization of finite state automata (FSA), with an expressive language
-that includes hierarchic levels of abstraction, concurrent regions,
-states and pseudostates, an extended state notion based on an
-arbitrary computational model.  Harel, the inventor of statecharts,
-gives an interesting retrospective view of how they were invented,
-back in early eighties, and why they were appealing also to non
-experts~\cite{harel09}.  For the sake of brevity, we refrain from
+\migtool\ takes as input UML statecharts, which are a generalization
+of finite state automata (FSA), with an expressive language that
+includes hierarchic levels of abstraction, concurrent regions, states
+and pseudostates, guards, and an extended state notion based on an
+arbitrary underlying computational model.  Harel, the inventor of
+statecharts, gives an interesting retrospective view of how they were
+invented, back in early eighties, and why they were appealing also to
+non experts~\cite{harel09}.  For the sake of brevity, we refrain from
 describing them here in detail; the interested reader is referred to
 the UML standard~\cite{uml25} or some of the textbooks that deal with
 them, like~\cite{samek09}.
 
-Using statecharts, behavior of UIs can be represented by associating
-states to screens and particular configuration of widgets, and
-transitions to actions performed by users or by the system itself. 
+By using statecharts, the behavior of UIs can be represented by
+associating states to screens and particular configurations of
+widgets, and transitions to actions performed by users or by the
+system itself. In the classification reported in~\cite{hilbert2000},
+actions belong to the ``abstract interaction events'' category.
 
 Because statechart models take advantage of abstraction features and a
 rich set of connecting pseudostates, they are not suitable to be
-directly processed to compute metrics. For this reason, \migtool first
-\emph{flattens} the model. Flattening is a process often used when
-statecharts have to be automatically
+directly processed to compute metrics. For this reason, \migtool\
+first \emph{flattens} the model. Flattening is a process often used
+when statecharts have to be automatically
 processed~\cite{briand2005:test:uml}, and it means to produce a FSA
-that is behaviorally equivalent to the original statechart, where
-hierarchy between states and concurrent regions are removed. In most
-cases this leads to an exponential number of states and transitions,
-but because the process is completely automatic and in our case there
-is no need to manually inspect the resulting FSA, this aspect is in
-many cases not relevant.  Flattening statecharts is an often used
-process when they have to be automatically
-processed~\cite{briand2005:test:uml}.  \migtool\ produces an XML
-representation (graphML) of the resulting FSA, the \emph{interaction
-  graph}. It is a directed multigraph, potentially with cycles and
-loops, with edges that are labeled with the name of the corresponding
-action\footnote{A directed multigraph is a graph such that there is at
-  least a pair of vertices that are connected by 2 or more edges that
-  have the same direction. Cycles are paths that include 2 or more
-  occurrences of the same edge. Loops are edges that start and end on
-  the same vertex.}. In the following we will be referring to the
-interaction graph, and will be using as synonymous the terms ``state''
-and ``vertex'', and ``action'' and ``edge''.
+that is behaviorally equivalent to the original statechart, with no
+hierarchy between states and no concurrent regions. In most cases this
+leads to an exponential number of states and transitions in the FSA,
+but because the process is completely automatic and there is no need
+to manually inspect the resulting FSA, this aspect is in many cases
+not relevant.  \migtool\ produces an XML representation (graphML) of
+the resulting FSA, the \emph{interaction graph}. It is a directed
+multigraph\footnote{A directed multigraph is a graph such that there
+  are 2 or more edges that have the same end points. Cycles are paths
+  that include 2 or more occurrences of the same vertex. Loops are
+  edges that start and end on the same vertex. ``Geodesic path'' is a
+  synonymous term with ``shortest path''.}, potentially with
+cycles and loops, with edges that are labeled with the name of the
+corresponding action. In the following we will be using as synonymous
+the terms state/vertex, and action/edge.
 
 \subsection{Defining usage scenarios}
 
 Because in all but the most trivial interaction graphs there are
-cycles, the set of possible interaction traces is usually
-infinite. For this reason, scenarios need to be defined as constraints
-on the possible execution traces that can be generated.  Users of
-\migtool\ define interaction scenarios by specifying key steps (called
+cycles, the set of possible interaction traces is infinite. For this
+reason, scenarios need to be defined and used as constraints on the
+possible execution traces that can be generated.  Users of \migtool\
+define interaction scenarios by specifying key steps (called
 \emph{bridge sets}) that users are expected to go through; we call
 this process \emph{grounding usage scenarios on models}. Each bridge
 set is specified by selecting a subset of the edges of the interaction
-graph. Often a scenario might require also optional steps. In such a
-case, the specification includes an initial state and a sequence of
-bridge sets. For example, to specify a scenario for replying to an
-email message, one could select all the edges associated to the action
-``reply'' (bridge set 1), followed by edges labeled with ``typeBody''
-(bridge set 2), followed by edges labeled with ``send'' (bridge set
-3). A well formed bridge set would consist of 1 or more edges (a
-bridge set with 0 edges would make the scenario unviable). In this way
-scenarios with cycles can be formulated (\eg, reply to two
-messages). Each pair of consecutive bridge sets makes a \emph{stage}
-of the scenario.
+graph. In general a specification includes an initial state and a
+sequence of bridge sets. For example, to specify a scenario for
+replying to an email message, one could select all the edges
+associated to the action \texttt{reply} (bridge set 1), followed by
+edges labeled with \texttt{typeBody} (bridge set 2), followed by edges
+labeled with \texttt{send} (bridge set 3). A well formed bridge set
+consists of 1 or more edges (an empty bridge set would make the
+scenario unviable). In this way scenarios with cycles can be
+formulated (\eg, reply twice to two messages). A \emph{stage} of a
+scenario comprises two consecutive bridge sets.
 %
 To cope with multi edges, the interaction graph is \emph{simplified}:
-all edges between  pairs of vertices are merged into a single one,
+all edges between a   pair of vertices are merged into a single one,
 whose label includes the original ones.
 
 \subsection{Searching traces}
 
 Quite expressive languages can be conceived for grounding scenarios
-(\eg, languages based on regular expressions). But such expressivity
-bonus needs to be balanced with computational tractability: even
-models with 50 states might lead to interaction graphs with several
-hundred states and several thousand edges, leading to an enormous
-number of possible paths to filter even for scenarios with just a few
-stages. 
+(\eg, regular expressions on sequences of action names). But such
+expressivity bonus needs to be balanced with computational
+tractability: even models with a dozen states might correspond to interaction
+graphs with several hundred states and several thousand edges, leading
+to an enormous number of possible traces to filter even for scenarios
+with just a few stages.
 
-To cope with this we implemented a path searching algorithm that
+To cope with this we implemented a trace searching algorithm that
 processes each of the stages sequentially, starting from the initial
 initial state. Given a bridge set $B_i$, the algorithm does a
-breadth-first search of all the geodesic paths\footnote{``Geodesic''
-  is synonymous with ``shortest''.}  that connect each of the ending
-vertices of edges in the bridge set $B_i$ with some of the starting
-vertices of edges in bridge set $B_{i+1}$. If some of the starting
-vertices cannot be reached, then the bridge is dropped. \migtool\
-creates a new graph from the geodesic paths found for each stage, and
-then joins these graphs so that geodesic paths found for stage $i$ are
-joined with those of ${i+1}$. These global paths, connecting the
-initial state and the remaining bridges of the last bridge set of the
-scenario are called \emph{execution traces}.
+breadth-first search of all the geodesic paths that connect
+\emph{each} of the ending vertices of edges in $B_i$ with \emph{some}
+of the starting vertices of edges in $B_{i+1}$. If some bridge in
+$B_{i+1}$ cannot be reached, then it is dropped from further
+searches. \migtool\ creates a new graph from the geodesic paths found
+for each stage, and then joins these graphs so that geodesic paths
+found for stage $i$ are joined with those of ${i+1}$. These global
+paths, connecting the initial state to reachable bridges of the
+last bridge set of the scenario are called \emph{execution traces}.
 
 Notice that a scenario specifies only the desired occurrences of
 actions, not all the necessary ones. For example, if the model
 prescribes that in order to \texttt{view(message)} while reading
 another one, one has to \texttt{goBack} to the inbox first, a scenario
-specifying two consecutive \texttt{view(message)} would lead to
-geodesic paths that include also the \texttt{goBack} action, even if
-it is not specified in the scenario. It is the task of \migtool to
-unfold cyles in the graph and search all the geodesic paths that
+specifying two consecutive \texttt{view(message)} would lead to traces
+that include also the \texttt{goBack} action, even if that step is not
+explicitly specified in the scenario. It is the task of \migtool\ to
+unfold paths in the graph and search all the geodesic paths that
 connect the desired user actions.
 
 \subsection{Detour traces}
 The algorithm described so far finds (some of) the global paths
 connecting the initial state to one or more bridges for each of the
-specified stages. The globally shortest path is identified, together
-with other viable alternatives. These traces are called
-\emph{detour order 0} traces (and states).
+specified stages. The globally shortest paths are included in the
+solution, together with other viable alternatives. These traces are
+called \emph{detour order 0} traces.
 
+\migtool\ is used to process a model and a scenario
+and to generate execution traces of detour order = 0,
+..., H. 
 For each stage, up to a maximum detour order $H$, the search algorithm
-creates traces with detour order $k+1$ by collecting states $D_k$
+creates traces with detour order $k+1$ by collecting the set $D_k$ of states
 with order $0$ up to $k$, and by identifying the neighbours ($N_k$)
-of $D_k$ (which are the states not included in $D_k$ that are
+of $D_k$ ($N_k$ is the set of states  not included in $D_k$ that are
 connected through an edge to some state in $D_k$). Edges connecting
 $D_k$ with $N_k$ represent deviations that users might follow, and
 geodesic paths between $N_k$ and $D_k$ constitute recovery paths that
@@ -728,51 +711,50 @@ for some state in $N_k$ there is no path leading to any vertex in
 $D_k$: in such a case the deviation leads to a dead end that prevents
 the user to complete the scenario.
 
-In general, \migtool is used to process a model against a scenario
-and to generate execution traces of detour order = 0,
-..., H. The time complexity of the search algorithm is
-$\mathcal{O}(KM(E+V)))$, where there are $K$ bridge sets, the mean
-size of them is $M$, the interaction graph has $V$ vertices and $E$
-edges. Therefore it scales pretty well with the size of the
+The time complexity of the search algorithm is
+$\mathcal{O}(KM(E+V)))$, where there are $K$ bridge sets, their mean
+size is $M$, the interaction graph has $V$ vertices and $E$
+edges. Therefore it scales well with the size of the
 interaction graph and/or complexity of the scenarios. In practice for
 interaction graphs consisting of about 10000 edges and a dozen of
-bridge sets, on a low-cost PC it takes about 15 seconds to generate
+bridge sets, on a low-cost PC it takes about 20 seconds to generate
 traces of order 0 to 3.
 
 
 \section{Comparing applications}
 \label{sec:casestudy}
 
-In this section we describe some examples based on well known web mail
-clients, namely Gmail, Horde, SquirrelMail and Roundcube. We chose
-these examples because they are very well known, and therefore are
-easy to describe and understand. And yet, despite email being a very
-well understood domain, the kind of questions that can be posed and
-the answers that are found provide an insight on some of the usability
-properties of these applications. 
+In this section we describe some examples of the results that can be
+obtained with \migtool, based on well known web mail clients, namely
+Gmail, Horde, SquirrelMail and Roundcube. We chose these examples
+because they are well known, and therefore are easy to describe and
+understand. And yet, despite email being a very well understood
+domain, the kind of questions that can be posed and the answers that
+are found provide interesting insights on some of the usability properties of
+these applications.
 
 \subsection{Models and scenarios}
 \label{sec:models-scenarios}
 
-Models of the four applications have been manually developed using UML
-state machines. In order to support a fair comparison, all four models
-cover the same set of use cases: listing the content of the inbox,
-reading a message or conversation, replying to a message, composing
-and sending a new message.
+Models of the four applications have been manually defined. In order
+to support a fair comparison, all four models cover the same set of
+use cases: listing the content of the inbox, reading a message or
+conversation, replying to a message, composing and sending a new
+message.
 
 Figure~\ref{fig:model} shows part of the model of Gmail. At some
-point, the user might be viewing all the conversations of the inbox
-(state \texttt{viewingConversations}); available actions include
-moving to the next or previuous block of conversations, refreshing the
-list, or opening a specific conversation (transition
+point, a user is viewing all the conversations of the inbox (state
+\texttt{viewingConversations}); available actions include moving to
+the next or previuous block of conversations, refreshing the list, or
+opening a specific conversation (transition
 \texttt{open(conversation)}). This transition (which is assumed to
 occur when the user clicks on one of the visible conversations) leads
 to the state \texttt{viewingAConversation}, where the behavior of the
 system is defined by a more detailed state machine. By default the
 user is viewing a conversation, but by performing the \texttt{reply}
 action the UI moves to a state called \texttt{replying}, where the
-body of the message can be typed, the subject can be changed, or
-another addressee can be added.
+body of the reply can be typed, the subject can be changed, or another
+addressee can be added.
 
 Notice that this behavior ``happens'' in one of the two concurrent
 regions specified by this model. In parallel to this, the user can
@@ -788,8 +770,7 @@ or subject of the message; and send or cancel it.
 \end{figure*}
 
 The model that we show here is part of what we used in the examples
-reported below, and that is only a part of what the real Gmail
-application supports. The actual model that we used consists of 
+reported below. The actual model that we used consists of 
 24 states, 12 pseudo states, 12 regions, and 61 transitions. 
 
 The flattening process, which takes a fraction of a second on a
@@ -1165,7 +1146,7 @@ Therefore we can conclude that:
 \section{Discussion}
 \label{sec:discussion}
 
-An important issue underlying \migtool is the modeling effort that is
+An important issue underlying \migtool\ is the modeling effort that is
 needed upfront. Our experience, based on several case studies and some
 industrial examples, is that models do not need to be complete
 representations of the behavior of the application under
@@ -1190,7 +1171,7 @@ can be be isolated and/or left aside).
 
 Expressivity of the modeling language means that different designers
 are likely to produce different models for the same UI. As a
-consequence, metrics computed by \migtool do depend on different
+consequence, metrics computed by \migtool\ do depend on different
 modeling choices. It is worth mentioning, though, that because of the
 flattening process, several differences are reduced (for example,
 those dealing with using a different hierarchy of states, or with
@@ -1199,13 +1180,13 @@ sensitivity is correspondingly reduced. At the moment, however, we do
 not have hard evidence to back this claim.
 
 Differently from other model-based approaches, such as those based on
-IFML, \migtool uses \emph{only} a model of the behavior of the
+IFML, \migtool\ uses \emph{only} a model of the behavior of the
 UI. Designers do not need to cope with data modeling, nor with
-decisions dealing with presentation. In a sense, \migtool uses only the
+decisions dealing with presentation. In a sense, \migtool\ uses only the
 \emph{controller} part of the Model-View-Controller paradigm that is
-adopted when developing UIs. Therefore, the designer using \migtool to
+adopted when developing UIs. Therefore, the designer using \migtool\ to
 perform analysis is free from other concerns that in the end affect
-usability, and the conclusions that are derived with \migtool can be
+usability, and the conclusions that are derived with \migtool\ can be
 combined with other results \emph{after} the analysis is
 performed. This also means that no effort needs to be directed on
 developing data and presentation specifications/implementations.
@@ -1213,21 +1194,20 @@ developing data and presentation specifications/implementations.
 In terms of validity of conclusions obtained through \migtool, we can
 say that because they are devoid of user behavior assumptions (such as
 preferences, skills, interpretations, ergonomic constraints) they are
-very general. On the other hand, predictions based on \migtool metrics
+very general. On the other hand, predictions based on \migtool\ metrics
 are also generic because they do not consider data and presentation
 aspects, nor user-related factors. For example, it is unfeasible to
-use \migtool to predict the time needed by a user to complete a
-scenario. However, \migtool can be used to analyze the whole
+use \migtool\ to predict the time needed by a user to complete a
+scenario. However, \migtool\ can be used to analyze the whole
 interaction design and gather data to inform more specific analyses
 that could be performed, for example, with CogTool~\cite{john04cogtool}.
 
 
-\migtool is part of a suite of model-based tools for designing,
+\migtool\ is part of a suite of model-based tools for designing,
 analysing and testing user interfaces developed by the company
-ANONYMIZED. \migtool is implemented partly in Java (model processing)
-and partly in R/iGraph. Development of a web-based UI of \migtool is
-underway; \migtool will be made freely available for research
-purposes.
+ANONYMIZED. \migtool\ is implemented partly in Java (model processing)
+and partly in R/iGraph. Development of a web-based UI of \migtool\ is
+underway; it will be freely available for research purposes.
 
 \section{Conclusion}
 \label{sec:conclusion}
