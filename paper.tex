@@ -765,7 +765,7 @@ or subject of the message; and send or cancel it.
 
 \begin{figure*}[tbh]
   \centering
-  \includegraphics[width=\linewidth]{figures/gmail_2.png}
+  \includegraphics[width=1.05\linewidth]{figures/gmail_2.png}
   \caption{Part of the Gmail model.}\label{fig:model}
 \end{figure*}
 
@@ -773,12 +773,11 @@ The model that we show here is part of what we used in the examples
 reported below. The actual model that we used consists of 
 24 states, 12 pseudo states, 12 regions, and 61 transitions. 
 
-The flattening process, which takes a fraction of a second on a
-low-cost PC, produces a directed multigraph with 47 vertices and 634
-edges; when simplified by collapsing multiple edges between any pair of
-vertices, the graph includes 312 edges. Each vertex represents one of
-the possible combinations of simple states in any of the regions that
-can be active at the same time.
+The flattening process, which takes a couple seconds on a low-cost PC,
+produces a directed multigraph with 47 vertices and 634 edges; when
+simplified by collapsing multiple edges, the number of edges drops to
+312. Each vertex represents one of the possible combinations of simple
+states in any of the regions that can be active at the same time.
 
 Similar models and corresponding graphs were produced for the other
 three applications. 
@@ -789,32 +788,27 @@ three applications.
 \label{sec:analysis}
 
 Inspection of the interaction graph is not particularly useful because
-even for small graphs like the one  obtained from our Gmail model
-no particular structure is evident. Figure~\ref{fig:gom} shows a plot
-using a circular layout of the 47 states: because of the large
-number of cycles that exist among states, edges form an intricated web
-of possible action sequences. This in practice greatly reduces usefulness of
-typical network analysis metrics, such as \emph{betweenness,
-  eccentricity, page-rank, eigenvalue} centrality measures. 
+even for small graphs like the one obtained from our Gmail model no
+particular structure is evident that was not known from the
+model. Figure~\ref{fig:gom} shows a plot using a circular layout of
+the 47 states: because of the large number of cycles that exist among
+states, edges form an intricated web of possible action sequences. We
+believe this in practice greatly reduces usefulness of typical network
+analysis metrics, such as \emph{betweenness, eccentricity, page-rank,
+  eigenvalue} centrality measures.
 
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/gom.png}
-  \caption{Graph obtained from the Gmail model.}
+  \caption{Interaction graph obtained from the Gmail model.}
   \label{fig:gom}
 \end{figure}
 
 
 To be able to obtain results that bear upon usability, we process
-further the graph, first by specifying an interaction scenario using
-vertices and edges of the graph, and secondly by computing possible
-execution paths.
-
-Specification of a scenario consists of formulating it using the
-language provided by the graph, i.e. deciding which is the initial
-state and which user actions need to be considered. For example, the
-following fragment of R code specifies that the scenario should
-include, in the given order, two occurrences of
+further the graph, by specifying scenarios and computing traces.  The
+following fragment of R code specifies the bridge sets of the choosen
+scenario: it comprises, in the given order, two occurrences of
 \texttt{open(conversation)}, followed by \texttt{reply}, followed by
 \texttt{typeBody}, etc.: \lstset{language=R}
 \begin{lstlisting}
@@ -830,11 +824,11 @@ edgesWithLabel(gmail,"writeBody"),
 edgesWithLabel(gmail,"writeSubject"),
 edgesWithLabel(gmail,"send")
 \end{lstlisting}
-In plain language such a scenario means opening one and then a second conversation,
-replying to the last message of the second one by typing the body of
-the response, sending it, and then composing a new message by adding a
-recipient, an attachment, typing the body and subject, and finally
-sending it.
+In plain language such a scenario means opening a conversation,
+opening a second one, replying to the last message of the
+second conversation by typing the body of the response, sending it, and then
+composing a new message by adding a recipient, an attachment, typing
+the body and subject, and finally sending it.
 
 The execution traces for such a Gmail scenario, with a detour limit of
 3, consist of a graph with 474 vertices and 1753 edges. These traces
@@ -876,29 +870,24 @@ order.
 % ## d2 22  18  25 20.18182 1.0900901 51
 % ## d3 31  19  24 21.04839 1.4727969 82
 
-Gmail has the highest number of order 0 and 1 paths, and the highest
-difference between the number of order 0 and 1, and between order 1
-and 2 (at least 3 times as many order 0 paths than any of the other
-applications, and at least twice as many order 1 paths as the any of
-the other ones). 
- Gmail offers 3 times as many error-free alternative
-paths to accomplish the scenario, which indicates that users might
-more easily follow one of those paths. 
-\mytodo{result}
-However, Gmail offers also
-almost twice as many order 1 paths, which means that users could be
-more easily induced into an erroneous path than when using another
-system.  
-\mytodo{result}
-Because the number of order 2 or 3 paths decreases, Gmail
-reduces therefore the ``error proneness'' of this UI, for executions
-that involve 2 or 3 errors. Notice that Roundcube has the smallest
-number of order 0 paths (2 of them), which means that users are not
-given much flexibility and freedom in carrying out correctly the
-scenario. 
-\mytodo{result}
-For none of the systems a detour leads to dead-ends preventing the
-user to complete the scenario.
+Gmail has the highest number of order 0 and 1 traces; it has the
+highest difference between the number of order 0 and 1, and between
+order 1 and 2 (at least 3 times as many order 0 paths than any of the
+other applications, and at least twice as many order 1 paths as the
+any of the other applications).  In other words, Gmail offers 3 times
+as many error-free alternative paths to accomplish the scenario, which
+indicates that users might more easily follow one of those paths, than
+when using other applications.  Notice that Roundcube has the smallest number
+of order 0 paths (2 of them), which means that users are not given
+much flexibility and freedom in carrying out correctly the scenario.
+However, Gmail provides also almost twice as many order 1 paths, which
+means that users could be more easily induced into an erroneous path
+than when using another system (or given more flexibility).
+Because the number of order 2 or 3 paths decreases, Gmail reduces
+therefore the ``error proneness'' of this UI, for executions that
+involve 2 or 3 errors. 
+
+For none of the systems a detour leads to dead-ends.
 
 Figure~\ref{fig:bestcase} shows the length of paths in the best case,
 i.e., when users would always choose the shortest route. Gmail offers
@@ -908,10 +897,9 @@ applications; for order 3 the length is 17 steps; the other
 applications are remarkably similar among them).  A plausible
 interpretation is therefore that Gmail not only offers many more
 error-free paths, but also gives the shortest ones. Users are given
-more flexibility and more efficiency.  \mytodo{result} Because also
-paths with order 1 or more are the shortest ones among the four
-applications, Gmail also makes users more efficient in recovering from
-errors.  \mytodo{result}
+more flexibility and more efficiency.  Because also paths with order 1
+or more are the shortest ones among the four applications, Gmail also
+makes users more efficient in recovering from errors.  \mytodo{result}
 
 \begin{figure}[htb]
   \centering
@@ -938,21 +926,21 @@ errors.  \mytodo{result}
 \end{figure}
 
 To combine these two results, we can easily compute the frequency of
-paths with different length. Figure~\ref{fig:freqopt} shows, for each
-application, the frequency of order 0 paths, the frequency of paths
-with length less or equal to 15 (the minimum length across the four
-applications), and the frequency of optimal paths (the shortest
+paths having different length. Figure~\ref{fig:freqopt} shows, for
+each application, the frequency of order 0 paths, the frequency of
+paths with length less or equal to 15 (the minimum length across the
+four applications), and the frequency of optimal paths (the shortest
 ones). These values show that Gmail users have the lowest probability
 to hit an order 0 path (because of the relative large number of order
-1 paths made available by Gmail), have the highest probability to hit
-a path with length 15 or less, have the lowest probability of hitting
-the shortest paths (10 times smaller than the best of the other
-applications).  Thus, the flexibility and efficiency that can be
-exploited with Gmail are counterbalanced by the required knowledge and
-capability of chosing an optimal path. In particular, Gmail offers
-many detours of order 1 which increase flexibility for some users and
-might decrease effectiveness for less knowledgeable ones.
-\mytodo{result}
+1 paths made available by Gmail), have the lowest probability of
+hitting the shortest paths (10 times smaller than the best of the
+other applications), but have the highest probability to hit a
+path with length 15 or less.  Thus, the flexibility and efficiency
+that can be exploited with Gmail are counterbalanced by the required
+knowledge and capability of chosing an optimal path. In particular,
+Gmail offers many detours of order 1 which increase flexibility for
+some users and might decrease effectiveness for less knowledgeable
+ones. 
 
 % >   d=0.050 # 5% chances that a user makes a generic mistake
 % >   dprh=detour.page.rank(sc.hom,3,d);dprh
@@ -969,13 +957,14 @@ might decrease effectiveness for less knowledgeable ones.
 % 0.76538478 0.08355996 0.06247253 0.08858273 %
 
 Another probabilistic analysis can be performed using page rank, which
-can be used to compute the probability that a random walk in a graph
-visits a certain vertex~\cite{page1999pagerank}. We computed the page rank (with a damping
-value of 5\% - meaning that the random walker with probability 5\%
-jumps to an arbitrary state and probability 95\% chooses one of the
-actions available in the current state) for each vertex in the graph,
-and then added the page rank value for vertices with different detour order.
-Figure~\ref{fig:pr} shows the resulting probabilities.
+computes the probability that a random walk in a graph visits a
+certain vertex~\cite{page1999pagerank}. We computed the page rank
+(with a damping value of 5\% - meaning that the random walker with
+probability 5\% jumps to an arbitrary state and probability 95\%
+chooses one of the actions available in the current state) for each
+vertex in the graph, and then summed up page rank values for vertices
+with different detour order.  Figure~\ref{fig:pr} shows the resulting
+sums.
 
 
 \begin{figure}
@@ -988,33 +977,30 @@ Figure~\ref{fig:pr} shows the resulting probabilities.
 With Gmail the probability of visiting an order 0 state is close to
 70\%, the lowest among the four applications. But when it comes to
 visiting an order 0 or 1 state, the probability increases to 87\%,
-which is the highest. Thus, to compare Gmail with SquirrelMail, a
-completely random usage of SquirrelMail has 10\% more probability of
-hitting an error-free state than Gmail. That advantage is reduced when
-considering order 0 and 1 paths, because with SquirrelMail the
-probability is 85\% and Gmail it is 87\%.  This means that somebody
-with no knowledge on how to use an email front end, when using Gmail
-would have 10\% fewer chances of carrying out the scenario without
-making any error, as opposed to when using SquirrelMail: SquirrelMail
-provides more guidance. Across the four UIs, the probability of making
-at most 1 error is approximately the same\footnote{These results are
-  not very sensitive to the value chosen for the damping factor:
-  differences across the four applications are very similar when $d$
-  ranges in $[0.05,0.20]$.}.
-
-\mytodo{result}
+which is the highest. Thus, in a comparison of Gmail against
+SquirrelMail, a completely random usage of SquirrelMail has 10\% more
+probability of hitting an error-free state than Gmail. That advantage
+is slightly reduced when considering order 0 and 1 paths, because with
+SquirrelMail the probability is 85\% and Gmail it is 87\%.  This means
+that somebody with no knowledge on how to use an email front end, when
+using Gmail would have 10\% fewer chances of carrying out the scenario
+without making any error, as opposed to when using SquirrelMail:
+SquirrelMail provides more guidance. Across the four UIs, the
+probability of making at most 1 error is approximately the
+same\footnote{These results are not very sensitive to the value chosen
+  for the damping factor: differences across the four applications are
+  stable when $d$ ranges in $[0.05,0.20]$.}.
 
 Manual inspection of the shortest paths indicates that one reason of
 the higher potential efficiency offered by Gmail is due to the
 fact that users can start composing a new message while reading a
-conversation, whereas in other applications an explicit ``closing'' of
-the reading activity has to be performed. Another reason is in the
+conversation, whereas in other applications an explicit ``close action'' of
+the reading activity has to be performed. Another reason relies on the
 more streamlined process to attach a file: in Gmail one needs to
 select the file(s) and they are automatically uploaded, whereas in
 other applications one has to explicitly perform the uploading step
 after selecting them.
 
-\mytodo{result}
 
 \begin{figure}
   \centering
@@ -1024,7 +1010,7 @@ after selecting them.
 \end{figure}
 
 Figure~\ref{fig:ad} shows the \emph{action density} of the four
-applications, in terms of average number of actions per state involved
+applications, \ie\ the average number of actions per state involved
 in traces, and average number of \emph{unique} actions per state. The
 former is an overall measure of the number of options that are made
 available by a UI, the latter can be used to analyse how many
@@ -1035,8 +1021,6 @@ SquirrelMail and 2 for Horde. This suggests that Gmail features a more
 compact design (fewer actions to do the same things), and SquirrelMail
 is even more compact when it comes to the different types of actions;
 thus it could be easier to learn.
-
-\mytodo{result}
 
 \subsection{Comparing scenarios}
 
