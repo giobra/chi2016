@@ -1,0 +1,305 @@
+CHI 2016 Papers and Notes
+
+Reviews of submission #2822: "Measuring Interaction Design"
+
+------------------------ Submission 2822, Review 4 ------------------------
+
+Reviewer:           primary
+
+Your Assessment of this Paper's Contribution to HCI
+
+   This paper presents a tool ("MIGtool") that computes possible interaction
+   paths to perform tasks with or without errors. Four email clients have
+   been compared with this tool. It was found that Gmail offers 3 times more
+   shortest routes, but has 2 times more routes that include a user error,
+   and the probability to choose optimal routes is lower than for the other
+   email clients.
+
+Overall Rating
+
+   2.0 - Possibly Reject: The submission is weak and probably shouldn't be accepted, but there is some chance it should get in. 
+
+Expertise
+
+   2  (Passing Knowledge)
+
+The Review
+
+
+The Meta-Review
+
+   R1 judges the MIGtool as useful, but questions the approach, the novelty
+   of the results, the reliability of the results, and the readability of
+   the paper. R1 recommends a thorough comparison of this approach to HTA,
+   KLM, an SNIF-ACT. R1 asks for a user study to verify the reported
+   findings. As it stands the reliability/validity of the results is
+   unclear. 
+
+   R2 sees the conclusion of usefulness as premature as the paper is missing
+   a study to allow comparing the tool's predictions to real human behavior.
+   R2 has several concerns with the line of argumentation in the paper,
+   which R2 justifies in detail. 
+
+   R3 is missing relevant related work, e.g. regarding modeling UIs
+   according to statecharts and the representation of interaction traces as
+   graphs. The missing related work impacts the novelty stated in the paper.
+   R3 likes the capturing of the mail clients in interaction graphs and
+   computing the presented metrics. 
+
+   This work seems to have potential but, in my opinion, is not yet ready
+   for publication.
+
+Publicity Headline
+
+
+
+------------------------ Submission 2822, Review 1 ------------------------
+
+Reviewer:           external
+
+Your Assessment of this Paper's Contribution to HCI
+
+   This paper presents a tool called MIGtool which can assess the different
+   interaction paths available to perform actions. This tool has been used
+   to compare four email clients (Gmail, Horde, SquirrelMail, and
+   Roundcube). According to the MIGtool, Gmail offers the shortest routes,
+   but the probability of choosing a short route in Gmail is lower than in
+   other email clients. 
+
+Overall Rating
+
+   2.5 . . . Between possibly reject and neutral 
+
+Expertise
+
+   3  (Knowledgeable)
+
+The Review
+
+   The proposed system is useful when designing and evaluating interfaces.
+   However, the novelty of the approach, reliability of the results, and the
+   readability of the paper are questionable. 
+
+   The proposed approach seems to be highly relevant to hierarchical task
+   analysis (HTA). Hence, it would  be useful if the authors compared this
+   approach with HTA and models developed using HTA. For example keystroke
+   level model (KLM) computes the cost of performing interactions with an
+   interface. Another useful model is SNIF-ACT which computes the
+   probability of a user reaching a particular target given the link
+   structure of a web page. These models compute the cost of each path - not
+   only the length of a path. Hence, the existing work appears to be more
+   advanced than the proposed approach. Unfortunately the Background section
+   is missing a thorough comparison of all these highly relevant literature.
+   Hence the novelty of this approach is questionable. And also the
+   structure of the Background section is poor and difficult to follow. If
+   the authors have considered breaking the Background in to several
+   sub-sections including the models of navigation, task analysis,
+   navigation cost computation (such a Fitt's law), it would be more
+   understandable. 
+
+   Another major limitation is the lack of user study to verify the findings
+   of the proposed approach. At the moment only an analysis of the length of
+   the paths computed by the tool is given. Based on this analysis authors
+   make claims such as .."somebody with no knowledge on how to use an email
+   front end, when using Gmail would have 10% fewer chances of carrying out
+   the scenario without making any error, as opposed to when using
+   SquirrelMail". It is important to have a user study to verify these
+   findings.
+
+    And also there are undefined terms such as frequency of paths. From the
+   description it sounds like that the term frequency refers to the
+   probability that a user would follow an order 0 path. But it is not clear
+   how this probability was computed? 
+
+   The readability of this paper can also be improved. At the moment the
+   figures are not clear and the ordering of figures make it difficult to
+   follow - for example Figure 2 is presented before Figure 1. The purpose
+   of Figure 2 and what it actually shows is unclear. The section "Defining
+   usage scenarios" would be more understandable if there is a diagram that
+   shows the edges and nodes described in the example scenario.  It is also
+   not clear what type of interactions included in the model - does the tool
+   consider shortcut keys ?
+
+   Due to these concerns it is difficult to rely on the findings of this
+   paper. 
+
+
+------------------------ Submission 2822, Review 2 ------------------------
+
+Reviewer:           external
+
+Your Assessment of this Paper's Contribution to HCI
+
+   The paper presents a tool that aims to predict usability issues from a
+   graphical representation of a UI before any code is created.
+
+Overall Rating
+
+   2.0 - Possibly Reject: The submission is weak and probably shouldn't be accepted, but there is some chance it should get in. 
+
+Expertise
+
+   4  (Expert )
+
+The Review
+
+   Let me just start out by saying I love tools, so I was very excited to
+   have this paper assigned to me. I hope the authors continue in this line
+   of work, even though I think publication of this paper is premature.
+
+   The authors are well aware of the limitations of their tool, saying, in
+   the concluding paragraph,
+   "The method should not be used to draw final usability conclusions, as it
+   is devoid of any concerns dealing with what is presented to users, how
+   they could perceive that, understand that, and manipulate that."
+
+   They go on to say
+   "But, because the approach can be applied also when only a specification
+   of the user interface is available, it supports construction and
+   engineering of interactive systems and could help in iteratively
+   simplifying or improving a design.” 
+   In my opinion, the conclusion of usefulness is premature because
+   comparison to real human behavior is necessary to demonstrate that the
+   stated limitations are not so limiting that the results are useless (or
+   wrong).
+
+   Here are some detailed reasons why I disagree with many of the
+   interpretations they make in the paper.
+
+   “Gmail offers 3 times as many error-free alternative paths to
+   accomplish the scenario, which indicates that users might more easily
+   follow one of those paths, than when using other applications.” I
+   don’t think that necessarily follows. Other research has shown that
+   giving people many ways to to do the same thing can confuse them and slow
+   them down (I seem to recall a paper by Judy Olson and Eric Nilsen in  the
+   80s that addressed the performance hit caused by multiple methods).
+
+   “A plausible interpretation is therefore that Gmail not only offers
+   many more error-free paths, but also gives the shortest ones. Users are
+   given more flexibility and more efficiency” Not necessarily, because
+   efficiency is measured in time, not number of steps. If Gmail’s 13
+   steps were tiny targets far apart and Horde’s steps were large targets
+   close together, Fitts’s Law would tell us that Horde is really more
+   efficient (even without the possible differences in Think time from a
+   CogTool or KLM model).
+
+   “Gmail users have the lowest probability to hit an order 0 path
+   (because of the relative large number of order 1 paths made available by
+   Gmail)” I don’t think this is necessarily so either because human
+   error is not just probability. It has to do with proximity, size of
+   targets, affordances, memory, and a host of other systematic things, not
+   just how many possible paths there are. It’s the systematicity in human
+   behavior, including error behavior, that allows us to design to prevent
+   or accommodate human error!
+
+   “This means that somebody with no knowledge on how to use an email
+   front end, when using Gmail would have 10% fewer chances of carrying out
+   the scenario without making any error, as opposed to when using
+   SquirrelMail” Again, I disagree with the interpretation because human
+   behavior is not just probabilities. What if Gmail had buttons called
+   “Open Conversation”, “Open Message” “Add Attachment” and
+   SquirrelMail had buttons called “FOO” “BAR” and “CAT” for the
+   same functions. This analysis is not effected by the semantics in the
+   interface at all, whereas human behavior certainly is. The authors know
+   this, but when they claim that the tool's predictions are useful without
+   evidence from human behavior, I am unconvinced. The authors might remark
+   that GOMS/KLM/CogTool also have no notion of the semantics of the labels,
+   which is true. However, those models do not claim to make predictions
+   about novice users (only skilled users who have learned the labels, no
+   matter how odd they are). Information Foraging Theory, e.g., that
+   embodied in CogTool-Explorer, has to be used to make predictions about
+   new users with no knowledge of the UI.
+
+   ------------- more minor points -----------
+
+   When talking about Cogtool in the introduction, I think you missed the
+   most relevant paper for your work, "Human Performance Regression Testing"
+   at ICSE2013.  http://dl.acm.org/citation.cfm?id=2486809
+
+   “An important issue underlying MIGtool is the modeling effort that is
+   needed upfront.” I agree and its nice to know your estimates, but can
+   you compare it to the Gmail model? I think the Gmail model had almost 50
+   states so, three times as big as the Gmail model takes 3 days?
+
+   “it is possible that metrics computed by MIGtool do depend on different
+   modeling choices.” I agree. I hope you can find the resources to do
+   something like CogTool’s
+   John, B. E., (2010) Reducing the Variability between Novice Modelers:
+   Results of a Tool for Human Performance Modeling Produced through
+   Human-Centered Design. Proceedings of the 19th Annual Conference on
+   Behavior Representation in Modeling and Simulation (BRIMS) (Charleston,
+   SC, March 22-25, 2010).
+   http://cc.ist.psu.edu/BRIMS/archives/2010/papers/10-BRIMS-119%20John.pdf
+
+
+
+
+------------------------ Submission 2822, Review 3 ------------------------
+
+Reviewer:           external
+
+Your Assessment of this Paper's Contribution to HCI
+
+   This paper presents MIGtool, a software that captures and models the
+   behavior of a web site according to statecharts. Based on that model, a
+   series of interaction traces could be captured and further analyzed in an
+   interaction graph, a graph-based notation of the entire navigation.
+   The paper also defines a series of metrics to reason about the
+   configuration of the resulting interaction graph and applies them on 4
+   web mail clients: Gmail, Horde, SquirrelMail and Roundcube.
+   The figures obtained by these metrics enable the designer to compare
+   interaction traces within a same web site and across different web sites.
+
+Overall Rating
+
+   2.0 - Possibly Reject: The submission is weak and probably shouldn't be accepted, but there is some chance it should get in. 
+
+Expertise
+
+   4  (Expert )
+
+The Review
+
+   The first contribution, i.e. modeling the UI according to statecharts, is
+   not new. Several attempts have been already made towards this goal.
+   Although the paper mentions that some systematic literature review has
+   been conducted (the procedure followed is not entirely described), it
+   fails mentioning several attempts, such as, but not limited to:
+   - StateWebCharts, introduced in 2003, which are particularly appropriate
+   for representing a web site according to statecharts, and not just the
+   behavior.
+   - SCXML, which is now a W3C recommendation for expressing a web site
+   according to statecharts. See for instance www.w3.org/TR/scxml. SCXML has
+   been around for several years (the first version was launched in 2005,
+   ten years ago) and already integrated in several works, although the
+   final version just went out as an official W3C recommendation.
+   The paper does not mention these significant efforts and is not compliant
+   with SCXML, which is widely adopted now.
+   Consequently, there is no comparison between the paper and those previous
+   works.
+
+   The second contribution, i.e., the representation of interaction traces
+   as graphs, has been introduced since the early days of user interface
+   reverse engineering, especailly in the work of Eleni Stroulia.
+   She and her team developed a significant suite of tools for capturing
+   interaction traces like that and for reasoning about the graph, in terms
+   of structure, distance, etc.
+   There are other works that are similar like from El-Ramly, Paul Sorenson.
+
+   The third contribution, i.e. the various metrics on the graph, could be
+   estimated as somewhat original. Similar metrics exist on graphs in data
+   mining, but not exactly applied as it is here. In particular, metrics
+   could be also defined to compute a distance between different
+   configurations, which is not very much done here.
+   The paper does a very good job, however, in capturing the 4 web mail
+   clients into interaction graphs and in computing the metrics. Also the
+   discussion on the complexity order and related performance is very much
+   appreciated. There are ample perspectives open for using these metrics as
+   parts of a more general method for measuing the usability of the web
+   site, like in Information Scent from Peter Pirolli.
+   Without this part, it is not clear how the figures could help a designer
+   for assessing the usability.
+   As such, this paper should really be submitted to ACM EICS.
+
+
+
