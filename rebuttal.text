@@ -1,15 +1,13 @@
 We appreciate the effort that reviewers put in for our paper; we know
 how demanding the CHI review process is.  However we find many
 arguments being WRONG and the whole review being EXTREMELY WEAK.
-
 This invalidates the conclusion of the primary reviewer. 
 
 R1 asks for a comparisons with KLM: it could be done, but the outcome
 would be similar to what we say with respect to CogTool (page 3, col
-1, paragraph 3). SNIF-ACT applies to information websites, it is
+1, paragraph 3). SNIF-ACT applies to information websites: it is
 questionable to use it on web apps. Furthermore it cannot be used when
 only a model of the system is available.
-WRONG 
 
 We can restructure the Background section.
 
@@ -18,22 +16,21 @@ paths...". THIS IS WRONG: pages 6,7,8 discuss length & number of
 paths, of detours, probability of hitting a minimal path, action
 density.
 
-A user study would be needed if we claimed that, based on the data
-obtained with MIGTool, certain usability properties are guaranteed. To
-validate the tool and the method - as opposed to interpretations of
-the data it produces - no such study is needed. We claim that obtained
-data can be used to inform a designer in early stages: all the rest
-being equal, shorter paths lead to higher efficiency and satisfaction;
-more choices lead to higher flexibility; more detours make users less
-efficient/effective.  MIGTool produces several data that are very
-sensitive to different designs: hence suitable for a
-comparison. Furthermore, some of our conclusions agree with Gmail's
+We don't think a user study is needed to prove that MIGTool provides
+useful data. First, the experiment is too complex. Many factors
+influence completion time: paths, layout, size of interactors, labels,
+task, domain, user skill, attitude, expertise, familiarity. These
+cannot be factored out without negatively affecting ecological
+validity. Second, any interesting conclusion will entail "if we keep
+constant all the factors except for paths, shorter paths are
+associated to faster times". But such a conclusion does not need an
+experiment. MIGTool allows to factor our the paths component and draw
+analytical insights that can be used to optimize THAT component of the
+design. It produces data that are very sensitive to different
+designs: hence suitable for a comparison. It's the basis of any
+analytical engineering activity. Furthermore, some of our
+interpretations of data obtained from email apps agree with Gmail's
 success.
-
-This comment is an opinion of R1, not based on any evidence.
-
-We can  provide a definition of "frequency", as well as
-reordering figures.
 
 Fig2 was added to illustrate that graphs are very complex, and
 therefore that they cannot be used to visually specify interaction
@@ -41,7 +38,7 @@ scenarios. We could easily rephrase those parts to make them clearer.
 
 R2 says that the inference "users more easily follow some error free
 paths when there are 3 times as many" is not necessaryily true. We
-said "might follow", implying therefore a possibility.  WRONG COMMENT
+said "might follow", implying therefore a possibility.  
 
 R2 says that efficiency is measured in time, not in # of steps. First,
 the ISO/IEC 25060 defines it as "resources expended in relation to the
@@ -52,11 +49,11 @@ like. Second, completion time is a function of # of steps.
 On page 9, col 2, para 4 we said "The method should not be used to
 draw final usability conclusions, as it is devoid of any concerns
 dealing with what is presented to users" (as acknowledged by R2). Thus
-we don't understand the criticism based on Fitts' law.
+we don't understand R2's criticism based on Fitts' law.
 
 R2 says that it is not true that "Gmail users have the lowest
-probability to hit an order 0 path" (page 7, col 1, para 1). Well,
-based on the numbers and the assumption that all the rest is the same
+probability to hit an order 0 path" (page 7, col 1, para 1). 
+Based on the numbers and the assumption that all the rest is the same
 and that paths are equiprobable, this is actually a valid conclusion
 (see fig 5). 
 
@@ -64,26 +61,25 @@ R2 says that human behavior is not only probability. We agree, but we
 never stated that. Analyses similar to ours were done by other
 researchers, such as [32].
 
-R2 makes a comment about making predictions without considering labels
-in UI. That is our point: we want to be able to make
-predictions also when labels are not known, by using only the control
-part of the design. It's wrong to say that we don't consider "the
-semantic of the interface": we do, but not that attached to labels and
-renderings. There are even books on such a thing: [15,31].
-We could rephrase some sentence to make it clearer.
+R2 comments about making predictions without considering labels in
+UI. That is our point: we want to be able to make predictions also
+when labels are not known, by using only the control part of the
+design. It's wrong to say that we don't consider "the semantic of the
+interface": we do, but not the semantics attached to labels and
+renderings. There are even books on such a thing: [15,31].  We could
+rephrase some sentence to make it clearer.
 
-Thank you, R2, for the suggested papers. 
+Thank you R2 for the suggested papers. 
 
 R3 says that our first contribution is "modeling the UI according to
-statecharts"; we never said that. Page 2 col 1 para 2, point a) says
+statecharts"; we never said that: page 2 col 1 para 2, point a) says
 "using a UML state machine model to specify interaction scenarios",
 where interaction scenarios are defined later on in page 4, col 1,
 para 5.
 
-StateWebCharts was not included because it does not talk of metrics.
-SCXML is a standard for representing statecharts. We opted instead for
-UML state machines. R3 does not like UML, or there are other more
-fundamental reasons?
+StateWebCharts does not talk of metrics.  SCXML is a standard for
+representing statecharts. We opted instead for UML state machines. R3
+does not like UML, or there are other more fundamental reasons?
 
 R2 says that representing user traces in a graph is not new. We never
 claimed that. Nor did we do anything with "capturing" user traces, as
@@ -94,7 +90,7 @@ stages.
 
 R3 says that one way to compute metrics is to define them as a
 distance in a metric space. It is unfair to ask authors to define
-exactly the metrics that a reviewer has in mind. We failed this one.
+exactly the metrics that a reviewer has in mind. 
 
 R3 comments on how our data could be used to draw usability
 conclusions, similar to those deriving from Pirolli's Info Scent. Info
