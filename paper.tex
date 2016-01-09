@@ -84,7 +84,8 @@
 % End of preamble. Here it comes the document.
 \begin{document}
 
-\title{Measuring Interaction Design}
+\title{Measuring Interaction Design \\before Building the System: a
+  Model-Based Approach}
 
 \numberofauthors{2}
 \author{%
@@ -98,6 +99,16 @@
     \email{e-mail address}}\\
 }
 
+% \author{Giorgio Brajnik\inst{1,2} \and Simon Harper\inst{1}}
+% \institute{\textsuperscript{1}Computer Science School\\
+% University of Manchester, UK\\
+% \email{simon.harper@manchester.ac.uk}\\
+% and\\
+% \inst{2}Dipartimento di Matematica e Informatica\\
+% Universit\`a di Udine, Italy\\
+% \email{brajnik@uniud.it}
+% }
+
 \maketitle
 
 \begin{abstract}
@@ -108,15 +119,55 @@
   can be answered only for the specific scenarios and only after tedious
   manual inspection.
 
-  We present a tool (MIGTool) that transforms models of a user
-  interface into a graph, upon which usage scenarios can be easily
-  specified, and used to compute possible interaction paths. Metrics
-  based on possible paths, with or without user errors, can be easily
-  computed.  For example, when applying them to compare mail
-  applications, we show that Gmail has 3 times more shortest routes,
-  has 2x more routes that include a single user error, has routes with
-  13\% fewer steps, but optimal routes have the smallest probability
-  to be chosen.
+  We present a tool (MIGTool) that transforms models of the behavior
+  of a user interface into a graph, upon which usage scenarios can be
+  easily specified, and used by MIGTool to compute possible
+  interaction paths. Metrics based on possible paths, with or without
+  user navigation errors, can then be computed.  For example, when
+  analyzing four mail applications, we show that Gmail compared to
+  others has 3 times more shortest routes, has 2x more routes that
+  include a single user error, has routes with 13\% fewer steps, but
+  has also optimal routes with the smallest probability to be chosen.
+
+  Without MIGTool, this kind of analysis could only be done after
+  building some prototype of the system, and then only for specific
+  scenarios by manually tracing user actions and relative changes to
+  the screens. With MIGTool the exploration of suitability of a design
+  with respect to different scenarios, or comparison of different
+  design alternatives, can be done after providing only a partial
+  specification of the user interface behavior.
+
+  This is made possible by the ability to associate scenarios steps to
+  required user actions as defined in the model, by an efficient
+  strategy to identify complete execution traces that users can
+  follow, and by computing a range of diverse metrics on these
+  results. The agile modeling approach that was followed implies that
+  relatively little work is needed upfront.
+
+  CONTRIBUTION (asked when submitting the abstract)
+
+  There are three contributions.
+
+  First, we provide means to concisely ground usage scenarios on the
+  basis of actions specified in models. This mechanism is general
+  enough that can be used also to link tasks or use cases to actual
+  behavior of a user interface.
+
+  Second, MIGTool transforms models and scenarios into a graph of
+  possible execution paths. Thanks to the special-purpose language
+  that is provided to specify scenarios, MIGTool is quite efficient,
+  with a time complexiy that is linear with the number of steps in a
+  scenario and the number of edges in the graph. We describe the
+  language and the algorithm.
+
+  Third, we provide definition of a handful of metrics that are
+  objective, precise and that bear upon usability of the resulting
+  user interface. They are very general, can be used for most kinds of
+  user interfaces that can be modeled with discrete events, and are
+  platform independent.
+
+%% EICS submission: #122
+%% https://precisionconference.com/~eics16a/updatePaperResponse?userRef=CILXDODXPNF0VESOAFMMC8I16ZO5FR5J&paperNumber=112&emailSent=&error=
 
   
 \end{abstract}
