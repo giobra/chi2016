@@ -89,14 +89,14 @@
 
 \numberofauthors{2}
 \author{%
-  \alignauthor{1st Author Name\\
-    \affaddr{Affiliation}\\
-    \affaddr{City, Country}\\
-    \email{e-mail address}}\\
-  \alignauthor{2nd Author Name\\
-    \affaddr{Affiliation}\\
-    \affaddr{City, Country}\\
-    \email{e-mail address}}\\
+  \alignauthor{Giorgio Brajnik\textsuperscript{1,2}\\
+    \affaddr{\textsuperscript{1}Dip. di Matematica, Informatica e Fisica}\\
+    \affaddr{Universit\`a di Udine, Italy}\\
+    \email{brajnik@uniud.it}}\\
+  \alignauthor{Simon Harper\textsuperscript{2}\\
+    \affaddr{\textsuperscript{2}Computer Science School}\\
+    \affaddr{University of Manchester, UK}\\
+    \email{simon.harper@manchester.ac.uk}}\\
 }
 
 % \author{Giorgio Brajnik\inst{1,2} \and Simon Harper\inst{1}}
@@ -216,12 +216,16 @@ recovery from errors. Key importance is given to the ability to
 \item perform objective quantitative comparison of different designs
   to support construction and engineering of interactive systems.
 \end{inparaenum}
-All this can be done before developing prototypes of the UI.
+All this can be done before developing prototypes of the UI, similarly
+to what is claimed and done in~\cite{silva14}: ``... the analysis of solutions in
+the early phases of development is crucial as their results can then
+be iteratively injected in the development cycle''.
 
 To explain our work we present a comparison of four web mail front
 ends. We have chosen this domain because it is easy to understand and
 yet several questions cannot be easily answered. We applied the same
-techniques also in other domains, such as HVAC and other embedded UIs.
+techniques also in other domains, such as HVAC (Heat, Ventilation and
+Air Conditioning) and other embedded UIs.
 
 
 Developing good UIs for web or mobile applications is a
@@ -229,7 +233,7 @@ complex and expensive endeavor. One reason is the combination of
 devices, interaction modalities and workflows that need to be
 supported.
 %
-Adopting Usage Centered Development (UCD) practices is effective, as
+Adopting Usage Centered Development practices is effective, as
 is following established design principles~\cite{constantine99}. In
 particular, one of the most effective technique is early prototyping
 to explore part of the five-dimensional fidelity prototyping
@@ -283,13 +287,14 @@ couple of hours.
 
 Our contribution consists of
 \begin{inparaenum}[(a)]
-\item the idea of using a UML state machine model to specify
-  interaction scenarios,
+\item the idea of using a UML state machine model to support
+  specification of interaction scenarios,
 \item the development of a tool (\migtool, Measuring Interaction
-  Graphs Tool) that transforms models and scenario specifications into
-  interaction paths, and
+  Graphs Tool) that, based on models, transforms scenario
+  specifications into interaction paths, and
 \item the definition of metrics that provide concise, precise and
-  objective measures of a design.
+  objective measures of the interaction structure entailed by a user
+  interface. 
 \end{inparaenum}
 The examples presented below show that among four web mail
 applications, and with respect to a typical usage scenario, Gmail is
@@ -527,17 +532,19 @@ In \cite{fayollas2014}, hierarchical task models (specified with
 HAMSTERS) are used to specify how pilots are expected to interact with
 airplane cockpit interfaces in tasks such as changing value to some
 flight parameter. The paper in particular discusses how these task
-models can be used to specify alternative ways to achieve te same
-goal, and analyse the consequences on safety and reliability of the resulting
-system. Compared to MIGTool, this approach cannot take advantage of a
-model of the system and  instead relies only on models of the
-tasks. The conseguence is that analysing alternative ways to achieve
-the same goal requires developing different models; in addition,
-exploring suitability of a given system with respect to certain tasks
-is complex; and finally, hierarchical task models cannot take
-advantage of contexts and rich control flows that are available with
-state-transition representations, limiting therefore the richness of
-the scenarios being analysed.
+models can be used to specify alternative ways to achieve the same
+goal, and analyses the consequences on safety and reliability of the
+resulting system. Compared to MIGTool, this approach cannot take
+advantage of a model of the system and instead relies only on models
+of the tasks. The conseguence is that analysing alternative ways to
+achieve the same goal requires developing different models; in
+addition, exploring suitability of a given system with respect to
+certain tasks is complex because no model of the system is
+available. Finally, using \emph{only} hierarchical tasks as a modeling
+language limits the richness of the scenarios being analysed, because
+it is difficult to take advantage of contexts and rich control flows
+that are available with state-transition representations, especially
+with UML state diagrams.
 
 
 A review of usability measuring practices~\cite{hornbaek2006current}
@@ -671,13 +678,12 @@ general properties from \emph{actual} streams of events.
 \section{Generation of interaction traces}
 \label{sec:traces}
 
-In this section we provide a description of how \migtool\ computes
-execution traces.  They are potential paths (\ie, sequences of
+Traces are potential paths (\ie, sequences of
 connected states of the model) that users can follow when performing a
 given scenario.  The generation process encompasses the following
 steps:
 \begin{inparaenum}[(1)]
-\item automatic flattening of the statechart model;
+\item processing the model and automatic flattening of the statechart model;
 \item manual definition of the interaction scenario;
 \item automatic generation of execution traces; and
 \item interactive analysis of results.
@@ -686,22 +692,24 @@ steps:
 \subsection{Processing models }
 
 \migtool\ takes as input UML statecharts, which are a generalization
-of finite state automata (FSA), with an expressive language that
+of finite state automata (FSA) specified with an expressive language that
 includes hierarchical levels of abstraction, concurrent regions, states
 and pseudostates, guards, and an extended state notion based on an
-arbitrary underlying computational model.  Harel, the inventor of
-statecharts, gives an interesting retrospective view of how they were
-invented, back in early eighties, and why they were appealing also to
-non experts~\cite{harel09}.%   For the sake of brevity, we refrain from
-% describing them here in detail; the interested reader is referred to
+arbitrary underlying computational model.  
+% Harel, the inventor of
+% statecharts, gives an interesting retrospective view of how they were
+% invented, back in early eighties, and why they were appealing also to
+% non experts~\cite{harel09}.%   For the sake of brevity, we refrain from
+% % describing them here in detail; the interested reader is referred to
 % the UML standard~\cite{uml25} or some of the textbooks that deal with
 % them, like~\cite{samek09}.
 
 By using statecharts, the behavior of UIs can be represented by
 associating states to screens and particular configurations of
 widgets, and transitions to actions performed by users or by the
-system itself. In the classification reported in~\cite{hilbert2000},
-actions belong to the ``abstract interaction events'' category.
+system itself~\cite{horrocks99}. In the classification reported
+in~\cite{hilbert2000}, actions belong to the ``abstract interaction
+events'' category.
 
 Because statechart models take advantage of abstraction features and a
 rich set of connecting pseudostates, they are not suitable to be
@@ -714,16 +722,19 @@ hierarchy between states and no concurrent regions. In most cases this
 leads to an exponential number of states and transitions in the FSA,
 but because the process is completely automatic and there is no need
 to manually inspect the resulting FSA, this aspect is in many cases
-not relevant.  \migtool\ produces an XML representation (graphML) of
-the resulting FSA, the \emph{interaction graph}. It is a directed
-multigraph\footnote{A directed multigraph is a directed graph such
-  that there are 2 or more edges that have the same end points. Cycles
-  are paths that include 2 or more occurrences of the same
-  vertex. Loops are edges that start and end on the same
-  vertex. ``Geodesic path'' is a synonymous term with ``shortest
-  path''.}, potentially with cycles and loops, with edges that are
-labeled with the name of the corresponding action. In the following we
-will be using as synonymous the terms state/vertex, and action/edge.
+not relevant. Because \migtool\ does not use executable UML,
+transition guards are not given semantics and are simply treated as
+part of the event of a transition. \migtool\ produces an XML
+representation (graphML) of the resulting FSA, the \emph{interaction
+  graph}. It is a directed multigraph\footnote{A directed multigraph
+  is a directed graph such that there are 2 or more edges that have
+  the same end points. Cycles are paths that include 2 or more
+  occurrences of the same vertex. Loops are edges that start and end
+  on the same vertex. ``Geodesic path'' is a synonymous term with
+  ``shortest path''.}, potentially with cycles and loops, with edges
+that are labeled with the name of the corresponding action. In the
+following we will be using as synonymous the terms state/vertex, and
+action/edge.
 
 \subsection{Grounding usage scenarios}
 
@@ -732,25 +743,26 @@ or cycles, the set of possible interaction traces is infinite. For
 this reason, scenarios need to be defined and used as constraints on
 the possible execution traces that can be generated.  Users of
 \migtool\ define interaction scenarios by specifying key steps (called
-\emph{bridge sets}) that users are expected to go through; we call
-this process \emph{grounding usage scenarios on models}. Each bridge
-set is specified by selecting a subset of the edges of the interaction
-graph. In general a specification of a scenario includes an initial state and a
-sequence of bridge sets. For example, to specify a scenario for
-replying to an email message, one could select all the edges
-associated to the action \texttt{reply} (bridge set 1), followed by
-edges labeled with \texttt{typeBody} (bridge set 2), followed by edges
-labeled with \texttt{send} (bridge set 3). A well formed bridge set
-consists of 1 or more edges (an empty bridge set would make the
-scenario unviable). In this way scenarios with cycles can be
-formulated (\eg, reply twice to two messages). A \emph{stage} of a
+bridge sets) that users are expected to go through; we call
+this process \emph{grounding usage scenarios on models}. A \emph{bridge set}
+is a subset of the edges of the interaction graph; a well formed
+bridge set is a non-empty set (an empty bridge set would make the
+scenario unviable). In general a specification of a scenario includes
+an initial state and a non-empty sequence bridge sets. For example, to
+specify a scenario for replying to an email message, assuming an
+initial state that corresponds to a user interface that displays all
+messaes in the inbox, one could select all the edges associated to the
+action \texttt{reply} (bridge set 1), followed by edges labeled with
+\texttt{typeBody} (bridge set 2), followed by edges labeled with
+\texttt{send} (bridge set 3).  In this way scenarios with cycles can
+be formulated (\eg, reply twice to two messages). A \emph{stage} of a
 scenario comprises two consecutive bridge sets.
 %
 To cope with multi edges, the interaction graph is \emph{simplified}:
 all edges between a   pair of vertices are merged into a single one,
 whose label includes the original ones.
 
-\newpage
+
 \subsection{Searching traces}
 
 Quite expressive languages can be conceived for grounding scenarios
@@ -845,13 +857,16 @@ point, a user is viewing all the conversations of the inbox (state
 \texttt{viewingConversations}); available actions include moving to
 the next or previous block of conversations, refreshing the list, or
 opening a specific conversation (transition
-\texttt{open(conversation)}). This transition (which is assumed to
-occur when the user clicks on one of the visible conversations) leads
-to the state \texttt{viewingAConversation}, where the behavior of the
-system is defined by a more detailed state machine. By default the
-user is viewing a conversation, but by performing the \texttt{reply}
-action the UI moves to a state called \texttt{replying}, where the
-body of the reply can be typed, the subject can be changed, or another
+\texttt{open(conversation)}). This transition is assumed to occur when
+the user clicks on any one of the visible conversations - it is if
+there is a collection of transitions, each one for a different
+conversation that can be opened; the parameter \texttt{conversation}
+is bound to any occurrence of a conversation. Such transitions lead to the state
+\texttt{viewingAConversation}, where the behavior of the system is
+defined by a more detailed state machine. By default the user is
+viewing a conversation, but by performing the \texttt{reply} action
+the UI moves to a state called \texttt{replying}, where the body of
+the reply can be typed, the subject can be changed, or another
 addressee can be added.
 
 This behavior ``happens'' in one of the two concurrent regions
@@ -898,7 +913,7 @@ Because of the large number of cycles that exist among states, edges
 in the interaction graph form an intricate web of possible action
 sequences. We believe this greatly reduces usefulness of
 typical network analysis metrics, such as \emph{betweenness,
-  eccentricity, page-rank, eigenvalue} centrality measures.
+  eccentricity, page-rank} and \emph{eigenvalue} centrality measures.
 
 % \begin{figure}
 %   \centering
@@ -910,35 +925,77 @@ typical network analysis metrics, such as \emph{betweenness,
 
 To be able to obtain results that bear upon usability, we process
 further the graph, by specifying scenarios and computing traces.  The
-following fragment of R code specifies the bridge sets of the chosen
-scenario: it comprises, in the given order, two occurrences of
-\texttt{open(conversation)}, followed by \texttt{reply}, followed by
-\texttt{typeBody}, etc.: \lstset{language=R}
+scenario, which assumes \texttt{ViewingConversations} is the initial
+state, is specified with the following 11 bridge sets:
+\newpage
+\lstset{language=R}
 \begin{lstlisting}
-edgesWithLabel(gmail,"open(conversation)"),
-edgesWithLabel(gmail,"open(conversation)"), 
-edgesWithLabel(gmail,"reply"),
-edgesWithLabel(gmail,"typeBody"),
-edgesWithLabel(gmail,"send"),
-edgesWithLabel(gmail,"compose"),
-edgesWithLabel(gmail,"addRecipient"),
-edgesWithLabel(gmail,"open(files)"),
-edgesWithLabel(gmail,"writeBody"),
-edgesWithLabel(gmail,"writeSubject"),
-edgesWithLabel(gmail,"send")
+1  open(conversation)
+2  open(conversation)
+3  reply
+4  typeBody
+5  send
+6  compose
+7  addRecipient
+8  open(files)
+9  writeBody
+10 writeSubject
+11 send
 \end{lstlisting}
-In plain language such a scenario means opening a conversation,
-opening a second one, replying to the last message of the
-second conversation by typing the body of the response, sending it, and then
-composing a new message by adding a recipient, an attachment, typing
-the body and subject, and finally sending it.
+In plain language such a scenario means opening a conversation, doing
+something and then opening a second one, replying to the last message
+of the second conversation by typing the body of the response, sending
+it, and then composing a new message by adding a recipient, an
+attachment, typing the body and subject, and finally sending
+it. Notice that because the model precludes the possibility that there
+are two \emph{consecutive} actions called \texttt{open(conversation)},
+MIGTool has to find traces such that between bridge set 1 and 2 there
+is at least one \texttt{goBack} action.
 
 The execution traces for such a Gmail scenario, with a detour limit of
 3, consist of a graph with 474 vertices and 1753 edges. These traces
 entail 12  geodesic paths with order 0, 82 with order 1, 30
 with order 2 and 33 with order 3. Figure~\ref{fig:numpaths} shows the
 number of paths obtained for the four applications, split by detour
-order.
+order. 
+
+One of the order 0 geodesic paths is shown below; each line
+represents an action that the user is expected to perform; actions are
+only those entailed by the model. Actions marked with ``*'' are those not
+specified in the bridge sets and found in the interaction graph. 
+\lstset{language=Java}
+\begin{lstlisting}
+1  open(conversation) 
+2  goBack *
+3  open(conversation) 
+4  reply 
+5  typeBody 
+6  send 
+7  compose 
+8  attachFiles *
+9  addRecipient[first] 
+10 open(files) 
+11 writeBody 
+12 writeSubject 
+13 send 
+\end{lstlisting}
+% \begin{tabular}{rp{7cm}}
+%     1 & \texttt{open(conversation)} \\
+%     2 & \texttt{goBack} \\ 
+%     3 & \texttt{open(conversation)} \\
+%     4 & \texttt{reply} \\
+%     5 & \texttt{reply, addAddressee, typeBody, changeSubject} \\
+%     6 & \texttt{cancel, send, open(message)[msgIsClosed], close (message) [msgIsOpen]}\\
+%    7 & \texttt{compose} \\
+%     8 & \texttt{attachFiles} \\
+%     9 & \texttt{addRecipient[first]} \\
+%     10  & \texttt{open(files)} \\
+%     11 & \texttt{writeSubject, writeBody} \\
+%     12 & \texttt{writeSubject, close(message)[msgIsOpen], writeBody,
+%          open(message)[msgIsClosed]} \\
+%     13 & \texttt{cancel, send} \\
+%   \end{tabular}
+%   % 
 
 
 \begin{figure}[tbh]
@@ -1248,18 +1305,23 @@ capable design tool. Even more complex models (in our experience up to
 200 states and 450 transitions) can be developed and verified in 3
 days by one individual.  Experience in using statecharts to model
 behavior of UIs is needed though; useful suggestions are given
-in~\cite{horrocks99,thimbleby07}.
+in~\cite{horrocks99,thimbleby07}. 
 
 UML state diagrams provide a very expressive language, well suited to
-specify behavior of UIs based on discrete events. Evidence of this can
-also be found in recent OMG standards, such as
-IFML~\cite{ifml13}. Even though there are fundamental limits
-(inability to handle undo/redo's, because that goes beyond a finite
-state representation; inability to handle customizable toolbars,
-because that requires models that change at runtime; inability to
-handle perceptive UIs, because they are not well suited to be
-described in terms of discrete states), in many practical cases they
-can be be isolated and/or ignored~\cite{gb15:icwe}.
+specify behavior of UIs based on discrete events. in \migtool\ all the
+UML language~\cite{uml25} for state machine has been used, including sundry
+pseudostates. Evidence of this can also be found in recent OMG
+standards, such as IFML~\cite{ifml13}. Even though there are
+fundamental limits (inability to handle undo/redo's, because that goes
+beyond a finite state representation; inability to handle customizable
+toolbars, because that requires models that change at runtime;
+inability to handle perceptive UIs, because they are not well suited
+to be described in terms of discrete states), in many practical cases
+they can be be isolated and/or ignored~\cite{gb15:icwe}. One
+particular limitation of \migtool\ stems from the fact that it does
+not rely on an executable UML metamodel; as a consequence behaviors
+that rely on the fact that firing a transition broadcasts new events
+cannot be properly represented and analyzed.
 
 Expressivity of the modeling language means that different designers
 are likely to produce different models for the same UI. As a
@@ -1308,14 +1370,17 @@ performed. As mentioned above, ours is an agile modeling approach
 It is possible to extend \migtool\ so that also task models
 (specified, for example, through CTT, UsiXML, HAMSTERS
 \cite{mori02,limbourg04:usixml,martinie15}) can be processed and used
-as specification of the scenarios to be analyzed. At that point,
-\migtool\ could be used as a tool to explore suitability of tasks with
-respect to a behavioral model of a user interface. This problem has
-been addressed in \cite{martinie15} through a mechanism that relates
-task models to source code annotations of the implementation of the
-user interface. In this way it is possible to simulate execution of
-the tasks in parallel with execution of the system and ensure
-compatibility of the system with respect to tasks.  
+as specification of the scenarios to be analyzed. For example, a CTT
+model could be annotated by associating subtasks to bridge sets and
+then used to generate a sequence of bridge sets, from which
+\migtool\ could generate traces and metrics.  At that point, \migtool\
+could be used as a tool to explore suitability of tasks with respect
+to a behavioral model of a user interface. This problem has been
+addressed in \cite{martinie15} through a mechanism that relates task
+models to source code annotations of the implementation of the user
+interface. In this way it is possible to simulate execution of the
+tasks in parallel with execution of the system and ensure
+compatibility of the system with respect to tasks.
 
 
 In terms of validity of conclusions obtained through \migtool, because
@@ -1348,8 +1413,10 @@ considered in previous examples.
 % analyzing and testing user interfaces developed by the company
 % ANONYMIZED. 
 \migtool\ is implemented partly in Java (model processing)
-and partly in R/iGraph. Development of a web-based UI of \migtool\ is
-underway; it will be freely available for research purposes. Currently
+and partly in R/iGraph~\cite{r14}. 
+%Development of a web-based UI of \migtool\ is
+%underway; it will be freely available for research purposes. 
+Currently
 \migtool\ reads UML models represented as XMI files; it could be
 easily extended to handle also SCXML representations of statecharts \cite{scxml}.
 
@@ -1371,380 +1438,16 @@ their potential efficiency, and error proneness of the user interface.
 
 The method should not be used to draw final usability conclusions, as
 it is devoid of any concerns dealing with what is presented to users,
-how they could perceive that, understand that, and manipulate that.
+how they could perceive, understand, and manipulate that.
 But, because the approach can be applied  when just a
 specification of the user interface is available, it supports
 construction and engineering of interactive systems and could help in
 iteratively improving a design before building any UI prototype.
-
-%\bibliographystyle{SIGCHI-Reference-Format}
-%\bibliography{gb,database}
-%%% -*-BibTeX-*-
-%%% Do NOT edit. File created by BibTeX with style
-%%% ACM-Reference-Format-Journals [18-Jan-2012].
-
-\begin{thebibliography}{00}
-
-%%% ====================================================================
-%%% NOTE TO THE USER: you can override these defaults by providing
-%%% customized versions of any of these macros before the \bibliography
-%%% command.  Each of them MUST provide its own final punctuation,
-%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
-%%% do not use final punctuation, in order to avoid confusing it with
-%%% the Web address.
-%%%
-%%% To suppress output of a particular field, define its macro to expand
-%%% to an empty string, or better, \unskip, like this:
-%%%
-%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
-%%%
-%%% \def \showDOI #1{\unskip}           % plain TeX syntax
-%%%
-%%% ====================================================================
-
-\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
-\ifx \showDOI      \undefined \def \showDOI       #1{{\tt DOI:}\penalty0{#1}\ }
-  \fi
-\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
-\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
-\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
-\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
-\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
-\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
-\ifx \showURL      \undefined \def \showURL       #1{#1}          \fi
-
-\bibitem{ambler02}
-{S. Ambler}. 2002.
-\newblock {\em Agile Modeling: Effective Practices for eXtreme Programming and
-  the Unified Process}.
-\newblock Wiley.
-\newblock
-\showISBNx{0471202827}
-
-
-\bibitem{appert2008swingstates}
-{C. Appert} {and} {M. Beaudouin-Lafon}. 2008.
-\newblock \showarticletitle{SwingStates: adding state machines to Java and the
-  Swing toolkit}.
-\newblock {\em Software: Practice and Experience\/} {38}, 11 (2008),
-  1149--1182.
-\newblock
-
-
-\bibitem{conversy07}
-{E. Barboni}, {S. Conversy}, {D. Navarre}, {and} {P. Palanque}. 2007.
-\newblock \showarticletitle{Model-based engineering of widgets, user
-  applications and servers compliant with ARINC 661 specification}.
-\newblock In {\em Interactive Systems. Design, Specification, and
-  Verification}. Springer, 25--38.
-\newblock
-
-
-\bibitem{scxml}
-{J. Barnett} {and} {et al}. 2015.
-\newblock {\em State Chart {XML (SCXML)}: State Machine Notation for Control
-  Abstraction}.
-\newblock {T}echnical {R}eport. W3C.
-\newblock
-\newblock
-\shownote{\url{http://www.w3.org/TR/2015/REC-scxml-20150901}.}
-
-
-\bibitem{bellamy2011cogtool}
-{R. Bellamy}, {B. John}, {and} {S. Kogan}. 2011.
-\newblock \showarticletitle{Deploying CogTool: integrating quantitative
-  usability assessment into real-world software development}. In {\em Software
-  Engineering (ICSE), 2011 33rd International Conference on}. IEEE, 691--700.
-\newblock
-
-
-\bibitem{gb15:icwe}
-{G. Brajnik} {and} {S. Harper}. 2015.
-\newblock \showarticletitle{Detaching control from data models in model-based
-  generation of user interfaces}. In {\em Proc. of Int. Conf. on Web
-  Engineering}, {F.~Frasincar} (Ed.). IEEE, Rotterdam, Netherlands.
-\newblock
-
-
-\bibitem{briand2005:test:uml}
-{L.~C Briand}, {Y. Labiche}, {and} {J. Cui}. 2005.
-\newblock \showarticletitle{Automated support for deriving test requirements
-  from UML statecharts}.
-\newblock {\em Software \& Systems Modeling\/} {4}, 4 (2005), 399--423.
-\newblock
-
-
-\bibitem{buxton07}
-{B. Buxton}. 2007.
-\newblock {\em User Experience: Getting the Design Right and the Right Design}.
-\newblock Morgan Kaufmann.
-\newblock
-
-
-\bibitem{calvary:iwc03:camaleon}
-{G. Calvary}, {J. Coutaz}, {D. Thevenin}, {Q. Limbourg}, {L. Bouillon}, {and}
-  {J. Vanderdonckt}. 2003.
-\newblock \showarticletitle{A Unifying Reference Framework for Multi-Target
-  User Interfaces}.
-\newblock {\em Interacting with Computers\/} {15}, 3 (2003), 289--308.
-\newblock
-
-
-\bibitem{ceri:00}
-{S. Ceri}, {P. Fraternali}, {and} {A. Bongio}. 2000.
-\newblock \showarticletitle{{Web Modeling Language (WebML)}: a modeling
-  language for designing web sites}.
-\newblock {\em Computer Networks\/}  {33} (2000), 137--157.
-\newblock
-
-
-\bibitem{constantine99}
-{L.L. Constantine} {and} {L.A.D. Lockwood}. 1999.
-\newblock {\em Software for use: a practical guide to the models and methods of
-  usage-centered design}.
-\newblock Addison-Wesley.
-\newblock
-
-
-\bibitem{fayollas2014}
-{C. Fayollas}, {C. Martinie}, {P. Palanque}, {Y. Deleris}, {J-C. Fabre}, {and}
-  {D. Navarre}. 2014.
-\newblock \showarticletitle{An approach for assessing the impact of
-  dependability on usability: application to interactive cockpits}. In {\em
-  Tenth European Dependable Computing Conference (EDCC), 2014}. IEEE, 198--209.
-\newblock
-
-
-\bibitem{pirolli2007}
-{W.-T. Fu} {and} {P. Pirolli}. 2007.
-\newblock \showarticletitle{{SNIF-ACT}: A cognitive model of user navigation on
-  the World Wide Web}.
-\newblock {\em Human--Computer Interaction\/} {22}, 4 (2007), 355--412.
-\newblock
-
-
-\bibitem{gomez01}
-{J. G\'{o}mez}, {C. Cachero}, {and} {O. Pastor}. 2001.
-\newblock \showarticletitle{Conceptual Modeling of Device-Independent Web
-  Applications}.
-\newblock {\em IEEE MultiMedia\/} {8}, 2 (2001), 26--39.
-\newblock
-\showISSN{1070-986X}
-\showDOI{%
-\url{http://dx.doi.org/10.1109/93.917969}}
-
-
-\bibitem{harel09}
-{D. Harel}. 2009.
-\newblock \showarticletitle{Statecharts in the making: a personal account}.
-\newblock {\em CACM\/} {52}, 3 (March 2009), 67--75.
-\newblock
-
-
-\bibitem{heymann2007formal}
-{M. Heymann} {and} {A. Degani}. 2007.
-\newblock \showarticletitle{Formal analysis and automatic generation of user
-  interfaces: approach, methodology, and an algorithm}.
-\newblock {\em Human Factors: The Journal of the Human Factors and Ergonomics
-  Society\/} {49}, 2 (2007), 311--330.
-\newblock
-
-
-\bibitem{hilbert2000}
-{D.~M Hilbert} {and} {D.F. Redmiles}. 2000.
-\newblock \showarticletitle{Extracting usability information from user
-  interface events}.
-\newblock {\em ACM Computing Surveys (CSUR)\/} {32}, 4 (2000), 384--421.
-\newblock
-
-
-\bibitem{hornbaek2006current}
-{K. Hornb{\ae}k}. 2006.
-\newblock \showarticletitle{Current practice in measuring usability: Challenges
-  to usability studies and research}.
-\newblock {\em International Journal of Human-Computer Studies\/} {64}, 2
-  (2006), 79--102.
-\newblock
-
-
-\bibitem{horrocks99}
-{I. Horrocks}. 1999.
-\newblock {\em Constructing the User Interface with Statecharts}.
-\newblock Addison-Wesley Longman Publishing Co., Inc., Boston, MA, USA.
-\newblock
-\showISBNx{0201342782}
-
-
-\bibitem{john10}
-{B.E. John}. 2010.
-\newblock \showarticletitle{Reducing the Variability between Novice Modelers:
-  Results of a Tool for Human Performance Modeling Produced through
-  Human-Centered Design}. In {\em Proc. of the 19th Conf. on Behavior
-  Representation in Modeling and Simulation}. Charleston, SC, USA, 95--102.
-\newblock
-
-
-\bibitem{koch02:uwe}
-{N. Koch} {and} {A. Kraus}. 2002.
-\newblock \showarticletitle{{The expressive power of {UML}-based web
-  engineering}}. In {\em Second International Workshop on Web-Oriented Software
-  Technology (IWWOST02)}, {D.~Schwabe}, {O.~Pastor}, {G.~Rossi}, {and}
-  {L.~Olsina} (Eds.). 105--199.
-\newblock
-
-
-\bibitem{limbourg04:usixml}
-{Q. Limbourg}, {J. Vanderdonckt}, {B. Michotte}, {L. Bouillon}, {and} {V.
-  López~Jaquero}. 2004.
-\newblock \showarticletitle{UsiXML: a Language Supporting Multi-Path
-  Development of User Interfaces}. In {\em Proc. of 9th IFIP Working Conference
-  on Engineering for Human-Computer Interaction jointly with 11th Int. Workshop
-  on Design, Specification, and Verification of Interactive Systems,
-  EHCI-DSVIS'2004} {\em (Lecture Notes in Computer Science)}, Vol. 3425.
-  Springer-Verlag, Hamburg, Germany, 200--220.
-\newblock
-
-
-\bibitem{martinie15}
-{C. Martinie}, {D. Navarre}, {P. Palanque}, {and} {C. Fayollas}. 2015.
-\newblock \showarticletitle{A generic tool--supported framework for coupling
-  task models and interactive applications}. In {\em Proc. of Engineering
-  Interactive Computing Systems, {EICS} '15}. ACM, ACM Press, Duisburg,
-  Germany, 244--253.
-\newblock
-
-
-\bibitem{mccurdy06}
-{M. McCurdy}, {C. Connors}, {G. Pyrzak}, {B. Kanefsky}, {and} {A. Vera}. 2006.
-\newblock \showarticletitle{Breaking the fidelity barrier: an examination of
-  our current characterization of prototypes and an example of a mixed-fidelity
-  success}. In {\em CHI 2006}. ACM, ACM Press, New York, NY, 1233--1242.
-\newblock
-
-
-\bibitem{melia08}
-{S. Meli\'a}, {J. G\'omez}, {S. P\'erez}, {and} {O. D\'iaz}. 2008.
-\newblock \showarticletitle{A Model-Driven Development for GWT- Based Rich
-  Internet Applications with OOH4RIA}. In {\em Proc. 8th Int'l Conf. Web Eng.
-  (ICWE 2008)}. IEEE CS Press, 13--23.
-\newblock
-
-
-\bibitem{mori02}
-{G. Mori}, {F. Patern\`o}, {and} {C. Santoro}. 2002.
-\newblock \showarticletitle{{CTTE: Support for Developing and Analysing Task
-  Models for Interactive System Design}}.
-\newblock {\em IEEE Transactions on Software Engineering\/} {28}, 8 (August
-  2002), 797--813.
-\newblock
-
-
-\bibitem{ifml13}
-{{OMG}}. 2013.
-\newblock {\em Interaction Flow Modeling Language ({IFML}), FTF -- Beta 1\/}
-  (omg document number: ptc/2013-03-08 ed.).
-\newblock {T}echnical {R}eport. OMG.
-\newblock
-\showURL{%
-\url{http://www.omg.org/spec/IFML/1.0}}
-
-
-\bibitem{otter2000lostness}
-{M. Otter} {and} {H. Johnson}. 2000.
-\newblock \showarticletitle{Lost in hyperspace: metrics and mental models}.
-\newblock {\em Interacting with Computers\/} {13}, 1 (2000), 1--40.
-\newblock
-
-
-\bibitem{page1999pagerank}
-{L. Page}, {S. Brin}, {R. Motwani}, {and} {T. Winograd}. 1999.
-\newblock \showarticletitle{The PageRank citation ranking: bringing order to
-  the Web.}
-\newblock  (1999).
-\newblock
-
-
-\bibitem{parnas69}
-{D.L. Parnas}. 1969.
-\newblock \showarticletitle{On the use of transition diagrams in the design of
-  a user interface for an interactive computer system}. In {\em ACM '69 Proc.
-  of the 1969 24th National Conference}. ACM.
-\newblock
-
-
-\bibitem{silva03:umli}
-{P. Pinhero~da Silva} {and} {N.W. Paton}. 2003.
-\newblock \showarticletitle{User Interface Modeling in {UMLi}}.
-\newblock {\em IEEE Software\/} (2003), 62--69.
-\newblock
-
-
-\bibitem{preece02}
-{J. Preece}, {Y. Rogers}, {and} {H. Sharp}. 2002.
-\newblock {\em Interaction Design}.
-\newblock John Wiley and Sons.
-\newblock
-
-
-\bibitem{rubin08}
-{J. Rubin} {and} {D. Chisnell}. 2008.
-\newblock {\em Handbook of Usability Testing\/} (second ed.).
-\newblock Wiley.
-\newblock
-
-
-\bibitem{smith1996lostness}
-{P.A. Smith}. 1996.
-\newblock \showarticletitle{Towards a practical measure of hypertext
-  usability}.
-\newblock {\em Interacting with Computers\/} {8}, 4 (1996), 365--381.
-\newblock
-
-
-\bibitem{swearngin13}
-{A. Swearngin}, {M.B. Cohen}, {B.E. John}, {and} {K.E. Bellamy}. 2013.
-\newblock \showarticletitle{Human Performance Regression Testing}. In {\em
-  Proc. of the 2013 International Conference on Software Engineering} {\em
-  (ICSE '13)}. IEEE Press, Piscataway, NJ, USA, 152--161.
-\newblock
-\showURL{%
-\url{http://dl.acm.org/citation.cfm?id=2486788.2486809}}
-
-
-\bibitem{thimbleby07}
-{H. Thimbleby}. 2007.
-\newblock {\em Press on: principles of interaction programming}.
-\newblock The MIT Press.
-\newblock
-
-
-\bibitem{thimbleby2001markov}
-{H. Thimbleby}, {P. Cairns}, {and} {M. Jones}. 2001.
-\newblock \showarticletitle{Usability analysis with Markov models}.
-\newblock {\em ACM Transactions on Computer-Human Interaction (TOCHI)\/} {8}, 2
-  (2001), 99--132.
-\newblock
-
-
-\bibitem{thimbleby09:sna:eics09}
-{H. Thimbleby} {and} {P. Oladimeji}. 2009.
-\newblock \showarticletitle{Social Network Analysis and Interactive Device
-  Design Analysis}. In {\em Proc. of Engineering Interactive Computing Systems
-  2009}. ACM Press, 91--100.
-\newblock
-
-
-\bibitem{winckler03}
-{M. Winckler} {and} {P.A. Palanque}. 2003.
-\newblock \showarticletitle{StateWebCharts: A Formal Description Technique
-  Dedicated to Navigation Modelling of Web Applications.}. In {\em Design,
-  Specification, and Verification: 10th International Workshop, DSV-IS'03}.
-  Funchal,Madeira Island, Portugal, 61--76.
-\newblock
-
-
-\end{thebibliography}
-
+\newpage
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{gb,database}
+
+\balance{}
 
 \end{document}
 
