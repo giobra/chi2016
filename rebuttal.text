@@ -40,7 +40,7 @@ therefore that they cannot be used to visually specify interaction
 scenarios. We could easily rephrase those parts to make them clearer. 
 
 R2 says that the inference "users more easily follow some error free
-paths when there are 3 times as many" is not necessaryily true. We
+paths when there are 3 times as many" is not necessarily true. We
 said "might follow", implying therefore a possibility.  WRONG COMMENT
 
 R2 says that efficiency is measured in time, not in # of steps. First,
